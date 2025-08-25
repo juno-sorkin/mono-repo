@@ -22,9 +22,9 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with:
           auto-update-conda: true
-          python-version: '3.12' #monitor
+          python-version: '3.12'
           environment-file: dev_env.yml
-          activate-environment: dev-env
+          activate-environment: dev_env
           use-mamba: true
 
       # --- Code Quality Checks (Enforcement Mode) ---
