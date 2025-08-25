@@ -25,7 +25,7 @@ locals {
 
 module "ecr" {
   source  = "terraform-aws-modules/ecr/aws"
-  version = "3.0.0"
+  version = "3.0.1"
 
 
   repository_name                 = var.repository_name
