@@ -1,0 +1,45 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-added-large-files
+
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.10
+    hooks:
+    -   id: ruff-format
+        args: [--config=pyproject.toml]
+    -   id: ruff
+        args: [--fix, --exit-non-zero-on-fix, --config=pyproject.toml] # must exclude project_template/ to avoid ruff parsing {{ cookiecutter }}
+
+-   repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.100.0
+    hooks:
+    -   id: terraform_fmt
+        files: ^(packages|shared-modules)/
+    -   id: terraform_validate
+        files: ^(packages|shared-modules)/
+    -   id: terraform_docs
+        files: ^(packages|shared-modules)/
+        args:
+            - '--args=--config=.terraform-docs.yml --lockfile=false'
+    -   id: terraform_tflint
+        args:
+          - '--args=--only=terraform_deprecated_interpolation'
+          - '--args=--only=terraform_deprecated_index'
+          - '--args=--only=terraform_unused_declarations'
+          - '--args=--only=terraform_comment_syntax'
+          - '--args=--only=terraform_documented_outputs'
+          - '--args=--only=terraform_documented_variables'
+          - '--args=--only=terraform_typed_variables'
+          - '--args=--only=terraform_module_pinned_source'
+          - '--args=--only=terraform_naming_convention'
+          - '--args=--only=terraform_required_version'
+          - '--args=--only=terraform_required_providers'
+          - '--args=--only=terraform_standard_module_structure'
+          - '--args=--only=terraform_workspace_remote'

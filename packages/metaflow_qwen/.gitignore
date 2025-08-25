@@ -1,0 +1,13 @@
+# Terraform files
+**/.terraform
+**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+
+# IDE files
+.idea/
+*.swp
+*.swo
+.cursor/
+.ruff_cache
+.kiro/

@@ -1,0 +1,22 @@
+# Terraform files
+**/.terraform
+**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+
+# IDE files
+.idea/
+*.swp
+*.swo
+.cursor/
+.ruff_cache
+.kiro/
+.vscode/
+external/
+docs/tf-modules.md
+terraform-args/
+projects/
+__pycache__/
+.pytest_cache/
+shared-modules/custom/
+terraform-args/

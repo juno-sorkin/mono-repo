@@ -1,0 +1,14 @@
+name: self-test
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12
+  - pytest
+  - pytest-cov
+  - ruff
+  - cookiecutter
+  - pre-commit
+  - pip
+  - pip:
+    - metaflow
