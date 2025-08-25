@@ -62,7 +62,7 @@ jobs:
           terraform-docs --version
           FILES=$(git ls-files | grep -vE '^README\.md$' | tr '\n' ' ')
           # Quote expansion to avoid exceeding args length if many files; pre-commit accepts many files.
-          pre-commit run --show-diff-on-failure --all-files #$FILES
+          pre-commit run --show-diff-on-failure --all-files #$FILES #this logic is now outdated
 
       - name: Fetch base branch for diff
         if: ${{ github.event_name == 'pull_request' }}
