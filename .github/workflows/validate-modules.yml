@@ -67,7 +67,7 @@ jobs:
           # This preserves hook-level files/exclude behavior while avoiding touching the root README.
           FILES=$(git ls-files | grep -vE '^README\.md$' | tr '\n' ' ')
           # Quote expansion to avoid exceeding args length if many files; pre-commit accepts many files.
-          pre-commit run --show-diff-on-failure --files $FILES
+          pre-commit run --show-diff-on-failure --all-files #$FILES
 
       - name: Fetch base branch for diff
         if: ${{ github.event_name == 'pull_request' }}
