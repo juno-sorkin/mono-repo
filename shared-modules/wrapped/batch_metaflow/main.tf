@@ -100,7 +100,7 @@ module "batch" {
     } : {}
   )
 
-  # --- Job Queues --- #test change
+  # --- Job Queues ---
   job_queues = merge(
     # Default job queue (prioritizes Spot, falls back to On-Demand)
     {
