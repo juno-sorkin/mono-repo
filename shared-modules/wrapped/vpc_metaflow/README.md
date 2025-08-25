@@ -38,7 +38,7 @@ module "vpc_metaflow" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.10.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.0 |
 
 ## Modules
 
@@ -58,7 +58,7 @@ module "vpc_metaflow" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_availability_zone"></a> [availability\_zone](#input\_availability\_zone) | The single AWS Availability Zone into which all network resources will be deployed (e.g., us-east-2a). | `string` | `"us-east-2a"` | no |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS region for VPC endpoint service names. | `string` | `"us-east-2"` | no |
-| <a name="input_gateway_endpoints"></a> [gateway\_endpoints](#input\_gateway\_endpoints) | A list of gateway endpoint services to create (e.g., s3, dynamodb). | `list(string)` | <pre>[<br>  "s3",<br>  "dynamodb"<br>]</pre> | no |
+| <a name="input_gateway_endpoints"></a> [gateway\_endpoints](#input\_gateway\_endpoints) | A list of gateway endpoint services to create (e.g., s3, dynamodb). | `list(string)` | <pre>[<br/>  "s3",<br/>  "dynamodb"<br/>]</pre> | no |
 | <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | A mandatory prefix used for naming all resources created within the module (e.g., metaflow-prod, data-science-dev). | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of AWS tags to apply to all provisioned resources for cost allocation, automation, and identification. | `map(string)` | `{}` | no |
 | <a name="input_vpc_cidr_block"></a> [vpc\_cidr\_block](#input\_vpc\_cidr\_block) | The IPv4 CIDR block for the VPC. Must be a /16 block (e.g., 10.10.0.0/16) to allow for predictable subnet calculation. | `string` | n/a | yes |
