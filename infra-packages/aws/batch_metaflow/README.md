@@ -93,8 +93,6 @@ module "metaflow_batch" {
   gpu_instance_types             = ["g4dn.xlarge", "g4dn.2xlarge"]
   gpu_max_vcpus                  = 64
 
-  # Custom container image
-  default_container_image = "public.ecr.aws/lambda/python:3.9"
 
   tags = {
     Environment = "production"
@@ -152,7 +150,7 @@ This module implements several cost optimization strategies:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_default_container_image"></a> [default\_container\_image](#input\_default\_container\_image) | Default container image for Metaflow jobs. Uses AWS Deep Learning Container by default. | `string` | `"public.ecr.aws/lambda/python:3.9"` | no |
+| <a name="input_default_container_image"></a> [default\_container\_image](#input\_default\_container\_image) | Default container image for Metaflow jobs. Uses AWS Deep Learning Container by default. | `string` | `"public.ecr.aws/lambda/python:3.12"` | no |
 | <a name="input_enable_gpu_compute_environment"></a> [enable\_gpu\_compute\_environment](#input\_enable\_gpu\_compute\_environment) | Whether to create a GPU-enabled compute environment for ML workloads. | `bool` | `false` | no |
 | <a name="input_enable_spot_compute_environment"></a> [enable\_spot\_compute\_environment](#input\_enable\_spot\_compute\_environment) | Whether to create a Spot compute environment for cost savings. Recommended for non-critical workloads. | `bool` | `true` | no |
 | <a name="input_gpu_instance_types"></a> [gpu\_instance\_types](#input\_gpu\_instance\_types) | List of GPU-enabled EC2 instance types for ML workloads. | `list(string)` | <pre>[<br>  "g4dn.xlarge",<br>  "g4dn.2xlarge",<br>  "p3.2xlarge"<br>]</pre> | no |

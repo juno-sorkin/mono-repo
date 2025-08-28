@@ -7,7 +7,7 @@ variables {
   job_role_arn                    = "arn:aws:iam::123456789012:role/MetaflowJobRole"
   instance_profile_arn            = "arn:aws:iam::123456789012:instance-profile/MetaflowInstanceProfile"
   service_role_arn                = "arn:aws:iam::123456789012:role/MetaflowServiceRole"
-  default_container_image         = "public.ecr.aws/lambda/python:3.9"
+  default_container_image         = "public.ecr.aws/lambda/python:3.12"
   enable_spot_compute_environment = false
 }
 
@@ -174,7 +174,7 @@ run "gpu_compute_environment" {
     job_role_arn                    = "arn:aws:iam::123456789012:role/MetaflowJobRole"
     instance_profile_arn            = "arn:aws:iam::123456789012:instance-profile/MetaflowInstanceProfile"
     service_role_arn                = "arn:aws:iam::123456789012:role/MetaflowServiceRole"
-    default_container_image         = "public.ecr.aws/lambda/python:3.9"
+    default_container_image         = "public.ecr.aws/lambda/python:3.12"
     enable_spot_compute_environment = false
     enable_gpu_compute_environment  = true
     gpu_max_vcpus                   = 64
@@ -218,7 +218,7 @@ run "spot_fleet_configuration" {
     instance_profile_arn            = "arn:aws:iam::123456789012:instance-profile/MetaflowInstanceProfile"
     service_role_arn                = "arn:aws:iam::123456789012:role/MetaflowServiceRole"
     spot_fleet_role_arn             = "arn:aws:iam::123456789012:role/MetaflowSpotFleetRole"
-    default_container_image         = "public.ecr.aws/lambda/python:3.9"
+    default_container_image         = "public.ecr.aws/lambda/python:3.12"
     enable_spot_compute_environment = true
     spot_bid_percentage             = 80
   }
@@ -251,7 +251,7 @@ run "iam_arn_validation" {
     instance_profile_arn            = "arn:aws:iam::999888777666:instance-profile/MetaflowInstanceProfile"
     service_role_arn                = "arn:aws:iam::999888777666:role/MetaflowServiceRole"
     spot_fleet_role_arn             = "arn:aws:iam::999888777666:role/MetaflowSpotFleetRole"
-    default_container_image         = "public.ecr.aws/lambda/python:3.9"
+    default_container_image         = "public.ecr.aws/lambda/python:3.12"
     enable_spot_compute_environment = true
   }
 
@@ -287,7 +287,7 @@ run "variable_types_validation" {
     job_role_arn                    = "arn:aws:iam::123456789012:role/MetaflowJobRole"
     instance_profile_arn            = "arn:aws:iam::123456789012:instance-profile/MetaflowInstanceProfile"
     service_role_arn                = "arn:aws:iam::123456789012:role/MetaflowServiceRole"
-    default_container_image         = "public.ecr.aws/lambda/python:3.9"
+    default_container_image         = "public.ecr.aws/lambda/python:3.12"
     enable_spot_compute_environment = false
     enable_gpu_compute_environment  = false
     spot_fleet_role_arn             = null
@@ -341,7 +341,7 @@ run "local_values_validation" {
     job_role_arn                    = "arn:aws:iam::123456789012:role/MetaflowJobRole"
     instance_profile_arn            = "arn:aws:iam::123456789012:instance-profile/MetaflowInstanceProfile"
     service_role_arn                = "arn:aws:iam::123456789012:role/MetaflowServiceRole"
-    default_container_image         = "public.ecr.aws/lambda/python:3.9"
+    default_container_image         = "public.ecr.aws/lambda/python:3.12"
     enable_spot_compute_environment = false
     tags = {
       Environment = "test"
