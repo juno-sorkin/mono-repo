@@ -1,3 +1,18 @@
+# pyproject.toml
+[project]
+dependencies = [
+  "metaflow",
+  "pytest",
+  "pytest-cov",
+  "ruff",
+  "cookiecutter",
+  "pre-commit",
+  "pip",
+  "transformers",
+  "datasets",
+]
+
+
 [tool.ruff]
 # Same as Black.
 line-length = 88
@@ -50,3 +65,33 @@ select = [
 [tool.ruff.format]
 # Like Black, use double quotes for strings.
 quote-style = "double"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov",
+    "--cov-report=term-missing",
+]
+
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/.venv/*",
+    "*/venv/*",
+    "setup.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]

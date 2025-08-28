@@ -12,6 +12,10 @@
 .ruff_cache
 .kiro/
 .vscode/
+
+# Pants build system
+.pants.d/
+3erdparty/
 external/
 docs/tf-modules.md
 terraform-args/
