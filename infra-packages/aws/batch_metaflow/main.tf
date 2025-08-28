@@ -1,4 +1,4 @@
-# shared-modules/wrapped/batch_metaflow/main.tf
+# infra-packages/aws/batch_metaflow/main.tf
 
 locals {
   common_tags = merge(var.tags, {

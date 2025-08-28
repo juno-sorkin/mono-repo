@@ -1,4 +1,4 @@
-# shared-modules/wrapped/ecr_unop/variables.tf
+# infra-packages/aws/ecr_unop/variables.tf
 
 variable "repository_name" {
   description = "The name of the repository"

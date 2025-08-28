@@ -9,59 +9,16 @@ repos:
   -   id: check-yaml
   -   id: check-added-large-files
 
-- repo: https://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.100.0
-  hooks:
-  -   id: terraform_fmt
-      files: ^infra-packages/
-  -   id: terraform_validate
-      files: ^infra-packages/
-  -   id: terraform_docs
-      files: ^infra-packages/
-      args:
-          - '--args=--config=.terraform-docs.yml --lockfile=false'
-  -   id: terraform_tflint
-      args:
-        - '--args=--only=terraform_deprecated_interpolation'
-        - '--args=--only=terraform_deprecated_index'
-        - '--args=--only=terraform_unused_declarations'
-        - '--args=--only=terraform_comment_syntax'
-        - '--args=--only=terraform_documented_outputs'
-        - '--args=--only=terraform_documented_variables'
-        - '--args=--only=terraform_typed_variables'
-        - '--args=--only=terraform_module_pinned_source'
-        - '--args=--only=terraform_naming_convention'
-        - '--args=--only=terraform_required_version'
-        - '--args=--only=terraform_required_providers'
-        - '--args=--only=terraform_standard_module_structure'
-        - '--args=--only=terraform_workspace_remote'
-
 - repo: local
   hooks:
-  -   id: pants-fmt
-      name: pants-fmt
-      entry: pants --changed-since=HEAD --changed-dependents=transitive fmt
-      language: system
-      stages: [pre-commit]
-      files: \.(py|tf)$
-      pass_filenames: false
-
-- repo: local
-  hooks:
-  -   id: pants-lint
-      name: pants-lint
-      entry: pants --changed-since=HEAD --changed-dependents=transitive lint
-      language: system
-      stages: [pre-commit]
-      files: \.(py|tf)$
-      pass_filenames: false
-
-- repo: local
-  hooks:
-  -   id: pants-check
-      name: pants-check
-      entry: pants --changed-since=HEAD --changed-dependents=transitive check
-      language: system
-      stages: [pre-commit]
-      files: \.(py|tf)$
-      pass_filenames: false
+  - id: pants-all
+    name: pants-all
+    # Run fmt, lint, and check in a single, efficient Pants invocation.
+    # The --concurrent flag runs goals in parallel where possible.
+    entry: ./pants --concurrent fmt lint check
+    language: system
+    stages: [pre-commit]
+    # Tell pre-commit to pass the staged files to Pants.
+    pass_filenames: true
+    # Run only on relevant file types you have configured in Pants.
+    files: \.(py|tf)$

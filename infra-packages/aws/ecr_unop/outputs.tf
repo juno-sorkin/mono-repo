@@ -1,4 +1,4 @@
-# shared-modules/wrapped/ecr_unop/outputs.tf
+# infra-packages/aws/ecr_unop/outputs.tf
 
 output "repository_url" {
   description = "The URL of the repository, used by Docker clients and CI/CD systems."

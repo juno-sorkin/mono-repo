@@ -1,4 +1,4 @@
-# shared-modules/wrapped/batch_metaflow/outputs.tf
+# infra-packages/aws/batch_metaflow/outputs.tf
 
 # Compute Environments
 output "compute_environments" {

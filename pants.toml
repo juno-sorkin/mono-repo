@@ -15,10 +15,6 @@ pants_ignore = [
 process_execution_local_parallelism = 4
 process_execution_cache_namespace = "pants-cache"
 
-[subprocess-environment]
-env_vars = ["PATH=/home/linuxbrew/.linuxbrew/bin:%(env.HOME)s/.linuxbrew/bin:/usr/local/bin:/usr/bin:%(env.PATH)s"]
-
-
 [python]
 interpreter_constraints = [">=3.12"]
 # Enable resolves for better dependency management

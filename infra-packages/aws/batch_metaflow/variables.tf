@@ -1,4 +1,4 @@
-# shared-modules/wrapped/batch_metaflow/variables.tf
+# infra-packages/aws/batch_metaflow/variables.tf
 
 variable "name_prefix" {
   description = "A mandatory prefix used for naming all Batch resources (e.g., metaflow-prod, data-science-dev)."

@@ -1,4 +1,4 @@
-# shared-modules/wrapped/ecr/versions.tf
+# infra-packages/aws/ecr_unop/versions.tf
 
 terraform {
   required_version = ">= 1.13.0"

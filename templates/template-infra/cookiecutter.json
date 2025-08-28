@@ -1,9 +1,7 @@
 {
-    "project_name": "New Project",
-    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-    "package_name": "{{ cookiecutter.project_slug }}_pac",
-    "project_description": "A short description of the project.",
-    "date": "The date you started, in a mm/dd format",
-    "project_version": "v0.1.0",
-    "create_backend_config": ["y", "n"]
+    "infra_name": "new infra package orintegration",
+    "infra_slug": "{{ cookiecutter.infra_name.lower().replace(' ', '_').replace('-', '_') }}",
+    "create_backend_config": ["y", "n"],
+    "create_docs": ["y", "n"],
+    "create_tests": ["y", "n"]
 }

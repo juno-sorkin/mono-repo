@@ -1,4 +1,4 @@
-# shared-modules/wrapped/ecr_unop/main.tf
+# infra-packages/aws/ecr_unop/main.tf
 
 locals {
   default_lifecycle_policy = jsonencode({
