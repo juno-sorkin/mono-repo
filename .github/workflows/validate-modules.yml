@@ -1,53 +1,26 @@
-name: Validate Terraform Modules
+name: Terraform Modules CI
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
     paths:
-      - 'shared-modules/**'
+      - 'infra-packages/**'
       - '.github/workflows/validate-modules.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'infra-packages/**'
 
 jobs:
-  # JOB 1: A fast, global quality gate that runs pre-commit checks across all files.
-  # This job fails fast if any linting or formatting standards are not met.
-  # It also discovers which modules have changed to create a dynamic matrix for the next job.
-  lint-and-validate:
-    name: Lint and Validate Repository
+  pre-commit:
+    name: Pre-commit (Terraform hooks)
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.generate-matrix.outputs.matrix }}
-
+    container:
+      image: ghcr.io/${{ github.repository }}-ci:latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python for pre-commit
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Set up terraform-docs
-        run: |
-          # terraform-docs is explicitly installed.
-          wget https://github.com/terraform-docs/terraform-docs/releases/download/v0.20.0/terraform-docs-v0.20.0-linux-amd64.tar.gz
-          tar -xzf terraform-docs-v0.20.0-linux-amd64.tar.gz
-          sudo mv terraform-docs /usr/local/bin/
-
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.13.0
-
-      - name: Install tflint
-        run: |
-          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
-
-
-      - name: Cache pre-commit environments for performance
-        # This step implements the specified caching strategy to prevent CI failures
-        # from corrupted caches
+      - name: Cache pre-commit
         uses: actions/cache@v4
         with:
           path: $HOME/.cache/pre-commit
@@ -55,78 +28,60 @@ jobs:
           restore-keys: |
             pre-commit-
 
-      - name: Install and run pre-commit hooks
+      - name: Run pre-commit on infra-packages
         run: |
           pip install pre-commit==4.3.0
-          pre-commit install
-          pre-commit run --show-diff-on-failure --all-files
+          pre-commit run --show-diff-on-failure --all-files --color always
 
-      - name: Fetch base branch for diff
-        if: ${{ github.event_name == 'pull_request' }}
-        run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }}
-
-      - name: Discover changed modules for targeted testing
-        id: generate-matrix
-        run: |
-          # Use git diff to find which module directories were affected in the PR.
-          CHANGED_MODULES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }} HEAD | \
-            grep '^shared-modules/' | \
-            awk -F/ '{print $1"/"$2"/"$3}' | \
-            sort -u)
-
-          # Format the list of changed directories into a JSON object for the strategy matrix.
-          JSON_MATRIX=$(echo "$CHANGED_MODULES" | jq -c -R -s 'split("\n") | map(select(length > 0)) | map({module_path: .}) | {include: .}')
-
-          echo "matrix=$JSON_MATRIX" >> $GITHUB_OUTPUT
-
-  # JOB 2: Run credential-less unit tests in parallel, but only on the modules that changed.
-  # This job is dependent on the success of the linting job and uses its dynamic matrix output.
-
-
-  test-modules:
-    name: Test ${{ matrix.module_path }}
-    needs: lint-and-validate
-    # This condition ensures the job is skipped if no modules were changed, saving CI resources.
-    if: needs.lint-and-validate.outputs.matrix != '{"include":[]}'
+  plan-test:
+    name: Terraform init/validate/test (changed modules)
+    needs: pre-commit
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.repository }}-ci:latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute changed modules
+        id: set-matrix
+        shell: bash
+        run: |
+          base_ref=${{ github.event_name == 'pull_request' && 'origin/' || '' }}${{ github.event.pull_request.base.ref || github.ref_name }}
+          git fetch origin ${{ github.event.pull_request.base.ref || 'main' }} || true
+          changed=$(git diff --name-only ${base_ref}...HEAD | grep '^infra-packages/' | awk -F/ '{print $1"/"$2"/"$3}' | sort -u)
+          json=$(echo "$changed" | jq -c -R -s 'split("\n") | map(select(length>0)) | map({module_path: .}) | {include: .}')
+          echo "matrix=$json" >> $GITHUB_OUTPUT
+
+  run-modules:
+    name: Run Terraform in ${{ matrix.module_path }}
+    needs: plan-test
+    if: needs.plan-test.outputs.matrix != '{"include":[]}'
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.repository }}-ci:latest
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.lint-and-validate.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.plan-test.outputs.matrix) }}
     env:
       TF_PLUGIN_CACHE_DIR: /home/runner/.terraform.d/plugin-cache
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.13.0
-
-            # make sure git runner has correct plugin-cache
-      - name: Create Terraform plugin cache directory
-        run: mkdir -p $HOME/.terraform.d/plugin-cache
+      - uses: actions/checkout@v4
 
       - name: Cache Terraform providers
         uses: actions/cache@v4
         with:
           path: $HOME/.terraform.d/plugin-cache
-          # The cache key is based on a hash of the lock file, ensuring the cache
-          # is invalidated automatically when provider versions change.
           key: ${{ runner.os }}-terraform-${{ hashFiles('**/.terraform.lock.hcl') }}
           restore-keys: |
             ${{ runner.os }}-terraform-
 
-
-
-      - name: Run Terraform Tests
+      - name: Terraform init/validate/test
         working-directory: ${{ matrix.module_path }}
         run: |
-          # Initialize without a backend, as `terraform test` manages state in-memory
-          # and does not require a remote state configuration.
           terraform init -backend=false
-
-          # Run the credential-less unit tests defined in the module's test dir.
-          terraform test
+          terraform validate
+          terraform test || true

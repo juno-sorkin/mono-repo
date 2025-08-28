@@ -42,7 +42,7 @@ repos:
       name: pants-fmt
       entry: pants --changed-since=HEAD --changed-dependents=transitive fmt
       language: system
-      stages: [commit]
+      stages: [pre-commit]
       files: \.(py|tf)$
       pass_filenames: false
 
@@ -52,7 +52,7 @@ repos:
       name: pants-lint
       entry: pants --changed-since=HEAD --changed-dependents=transitive lint
       language: system
-      stages: [commit]
+      stages: [pre-commit]
       files: \.(py|tf)$
       pass_filenames: false
 
@@ -62,6 +62,6 @@ repos:
       name: pants-check
       entry: pants --changed-since=HEAD --changed-dependents=transitive check
       language: system
-      stages: [commit]
+      stages: [pre-commit]
       files: \.(py|tf)$
       pass_filenames: false

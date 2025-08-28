@@ -5,13 +5,14 @@ dependencies = [
   "pytest",
   "pytest-cov",
   "ruff",
-  "cookiecutter",
   "pre-commit",
   "pip",
   "transformers",
   "datasets",
 ]
 
+[download-terraform]
+version = "1.13.0"
 
 [tool.ruff]
 # Same as Black.

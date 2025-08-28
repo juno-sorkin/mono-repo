@@ -6,11 +6,6 @@ python_requirements(
     source="pyproject.toml",
 )
 
-# Repository-wide shell sources for scripts
-shell_sources(
-    name="scripts",
-    sources=["scripts/**/*.sh"],
-)
 
 # Global file targets for configuration files
 files(

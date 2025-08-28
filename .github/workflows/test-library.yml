@@ -1,59 +1,58 @@
-name: script-test
+name: Pants CI
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test-and-format:
+  lint-test:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    defaults:
-      run:
-        shell: bash -l {0}
+    container:
+      image: ghcr.io/${{ github.repository }}-ci:latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install dependencies from dev_env.yml
-        uses: conda-incubator/setup-miniconda@v3
         with:
-          auto-update-conda: true
-          python-version: '3.12'
-          environment-file: dev_env.yml
-          activate-environment: dev_env
-          use-mamba: true
+          fetch-depth: 0
 
-      # --- Code Quality Checks (Enforcement Mode) ---
-      # The following steps will fail the workflow if the code is not
-      # correctly formatted or linted. Developers should be expected to run
-      # pre-commit hooks before PR
-      - name: Check Formatting with Ruff
-        run: ruff format --check .
+      - name: Cache Pants and pip
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pants
+            ~/.cache/pip
+          key: ${{ runner.os }}-pants-${{ hashFiles('pants.toml', 'pyproject.toml', '3rdparty/python/default.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pants-
 
-      - name: Lint with Ruff
-        run: ruff check .
-
-      - name: Find, Install, and Test All Packages
+      - name: Bootstrap Pants
         run: |
-          find packages -type f -name "pyproject.toml" | while read -r config_file; do
-            project_dir=$(dirname "$config_file")
-            echo "=================================================="
-            echo "Testing project in: ${project_dir}"
-            echo "=================================================="
-            (
-              cd "${project_dir}" && \
-              echo "--- Installing dependencies ---" && \
-              pip install -e . && \
-              echo "--- Running tests with coverage ---" && \
-              package_name=$(grep -E '^name\s*=\s*"' pyproject.toml | cut -d '"' -f 2) && \
-              pytest --cov="$package_name" --cov-report="xml:coverage-${package_name}.xml"
-            )
-            if [ $? -ne 0 ]; then
-              echo "Tests failed in ${project_dir}"
-              exit 1
-            fi
-          done
+          ./pants --version
+
+      - name: Lint/Format (PR - changed only)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          ./pants --changed-since=origin/${{ github.base_ref }} --changed-dependents=transitive fmt --check
+          ./pants --changed-since=origin/${{ github.base_ref }} --changed-dependents=transitive lint
+
+      - name: Test (PR - changed only)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          ./pants --changed-since=origin/${{ github.base_ref }} --changed-dependents=transitive test
+
+      - name: Lint/Format (push - all)
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          ./pants fmt --check ::
+          ./pants lint ::
+
+      - name: Test (push - all)
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          ./pants test ::
