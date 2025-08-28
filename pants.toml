@@ -32,7 +32,7 @@ assets = true
 [python-bootstrap]
 # A list of paths to search for Python interpreters.
 # may need to change to match your 'which python' path, mine is from miniforge
-search_path = /home/sorkin/miniforge/bin/python
+search_path = ["/home/sorkin/miniforge/bin/python"]
 
 [ruff]
 config = "pyproject.toml"
