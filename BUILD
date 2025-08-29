@@ -24,3 +24,13 @@ files(
     name="docs",
     sources=["README.md", "docs/**/*"],
 )
+
+files(
+    name="packages_src",
+    sources=["packages/**"],
+)
+
+files(
+    name="services_src",
+    sources=["services/**"],
+)

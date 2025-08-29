@@ -42,11 +42,17 @@ def test_repository_structure():
     import os
 
     # Verify key directories exist
-    expected_dirs = ["docs", "shared-modules", "tests"]
+    # Get the repository root from the test's path
+    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+
+    # Verify key directories exist
+    expected_dirs = ["docs", "packages", "services", "tests"]
 
     for dir_name in expected_dirs:
-        assert os.path.exists(dir_name), f"Required directory '{dir_name}' not found"
-        assert os.path.isdir(dir_name), f"'{dir_name}' is not a directory"
+        path_to_check = os.path.join(repo_root, dir_name)
+        assert os.path.exists(path_to_check), f"Required directory '{path_to_check}' not found"
+        assert os.path.isdir(path_to_check), f"'{path_to_check}' is not a directory"
+
 
 
 def test_python_environment():

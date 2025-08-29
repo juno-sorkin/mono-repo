@@ -15,7 +15,7 @@ repos:
     name: pants-all
     # Run fmt, lint, and check in a single, efficient Pants invocation.
     # The --concurrent flag runs goals in parallel where possible.
-    entry: ./pants --concurrent fmt lint check
+    entry: pants --concurrent fmt lint check
     language: system
     stages: [pre-commit]
     # Tell pre-commit to pass the staged files to Pants.
