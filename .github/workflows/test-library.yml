@@ -1,65 +1,13 @@
-name: Pants CI
+name: Pants
 
-on:
-  pull_request:
-  push:
-    branches: [ main ]
+on: [push, pull_request]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-ci
-
 jobs:
   build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    outputs:
-      image_name: ${{ steps.image_name.outputs.name }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.7
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3.11.1
-
-      - name: Log in to GHCR
-        uses: docker/login-action@v3.5.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels)
-        id: meta
-        uses: docker/metadata-action@v5.8.0
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-            type=sha
-
-      - name: Build and push
-        uses: docker/build-push-action@v6.18.0
-        with:
-          context: .
-          file: .github/ci.Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Set image name output
-        id: image_name
-        run: echo "name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.version }}" >> $GITHUB_OUTPUT
-
-  ci:
     name: Perform CI Checks
     runs-on: ubuntu-24.04
     steps:
@@ -72,19 +20,12 @@ jobs:
           gha-cache-key: v1
           named-caches-hash: ${{ hashFiles('3rdparty/python/default.lock') }}
           cache-lmdb-store: 'true'
-
-      - name: Set Pants spec
-        id: spec
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "spec=--changed-since=origin/${{ github.base_ref }} --changed-dependents=transitive" >> $GITHUB_OUTPUT
-          else
-            echo "spec=::" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Run Pants
+      - name: Check BUILD files
         run: |
           pants tailor --check ::
-          pants --concurrent fmt --check ${{ steps.spec.outputs.spec }}
-          pants --concurrent lint ${{ steps.spec.outputs.spec }}
-          pants --concurrent test ${{ steps.spec.outputs.spec }}
+      - name: Lint and typecheck
+        run: |
+          pants lint check ::
+      - name: Test
+        run: |
+          pants test ::
