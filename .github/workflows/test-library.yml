@@ -20,7 +20,7 @@ jobs:
       contents: read
       packages: write
     outputs:
-      image_tag: ${{ steps.meta.outputs.version }}
+      image_name: ${{ steps.image_name.outputs.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,11 +53,15 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Set image name output
+        id: image_name
+        run: echo "name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.version }}" >> $GITHUB_OUTPUT
+
   ci:
     needs: build
     runs-on: ubuntu-latest
     container:
-      image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.image_tag }}
+      image: ${{ needs.build.outputs.image_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
