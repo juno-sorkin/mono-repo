@@ -1,8 +1,8 @@
 ## Monorepo: Python + Terraform, built with Pants
 
 ### Overview
-- **Build system**: Pants 2.27 for Python code and Terraform workflows
-- **Languages/Stacks**: Python 3.12, Terraform modules under `infra-packages/**`
+- **Build system**: Pants 2.27.0 for Python code and Terraform workflows
+- **Languages/Stacks**: Python 3.11 (compatible with >=3.11,<3.12), Terraform modules under `infra-packages/**`
 - **Quality gates**: pre-commit (Terraform hooks), Pants fmt/lint/test
 - **CI**: GitHub Actions; reproducible runner via `.github/ci.Dockerfile`
 
@@ -16,7 +16,7 @@
 - **`BUILD` / `pants.toml`**: Pants configuration
 
 ### Prerequisites
-- Python 3.12
+- Python 3.11
 - Git
 - Optional locally: Terraform, tflint, terraform-docs (needed only if you run Terraform pre-commit hooks locally; CI provides them)
 
@@ -58,6 +58,45 @@ terraform test        # runs terraform.tftest.hcl
 pre-commit run --all-files --show-diff-on-failure
 ```
 
+### Installing Pants
+You can download and run an installer script that will install the Pants binary with this command:
+
+```
+curl --proto '=https' --tlsv1.2 -fsSL https://static.pantsbuild.org/setup/get-pants.sh | bash
+```
+
+This script will install pants into ~/.local/bin, which must be on your PATH. The installer script will warn you if it is not.
+
+For security reasons, we don't recommend frequently curling this script directly to bash, e.g., on every CI run. Instead, for regular use, we recommend checking this script into the root of your repo and pointing users and CI machines to that checked-in version.
+
+Alternatively, on macOS you can also use homebrew to install pants:
+
+```
+brew install pantsbuild/tap/pants
+```
+
+You can also use the bin tool to install pants:
+
+```
+bin i github.com/pantsbuild/scie-pants ~/.local/bin/pants
+```
+
+pants is a launcher binary that delegates to the underlying version of Pants in each repo. This allows you to have multiple repos, each using an independent version of Pants.
+
+If you run pants in a repo that is already configured to use Pants, it will read the repo's Pants version from the pants.toml config file, install that version if necessary, and then run it.
+
+If you run pants in a repo that is not yet configured to use Pants, it will prompt you to set up a skeleton pants.toml that uses that latest stable version of Pants.
+
+If you have difficulty installing Pants, see our getting help for community resources to help you resolve your issue.
+
+### Upgrading Pants
+The pants launcher binary will automatically install and use the Pants version specified in pants.toml, so upgrading Pants in a repo is as simple as editing pants_version in that file.
+
+To upgrade the pants launcher binary itself, either:
+
+- Use the package manager you used to install Pants. For example, with Homebrew: `brew update && brew upgrade pantsbuild/tap/pants`.
+- Use its built-in self-update functionality: `SCIE_BOOT=update pants`.
+
 ### Cookiecutter templates
 - Project template:
 ```
@@ -90,7 +129,7 @@ Modules commonly declare `required_version >= 1.13.0`. Pants downloads its own T
 version = "1.13.0"
 
 [subprocess-environment]
-env_vars = ["PATH"]  # only if you must pass PATH or other vars through
+env_vars = ["PATH", "TF_PLUGIN_CACHE_DIR"]  # PATH for system tools, TF_PLUGIN_CACHE_DIR for Terraform plugin caching
 ```
 Alternatively in CI, set:
 ```
