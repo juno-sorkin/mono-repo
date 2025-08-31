@@ -19,6 +19,8 @@ repos:
     language: system
     stages: [pre-commit]
     # Tell pre-commit to pass the staged files to Pants.
-    pass_filenames: true
+    pass_filenames: false
     # Run only on relevant file types you have configured in Pants.
     files: \.(py|tf)$
+    # Exclude template files, which are not valid code.
+    exclude: ^templates/

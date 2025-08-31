@@ -1,12 +1,9 @@
 [GLOBAL]
-pants_version = "2.26.0"
-plugins = ["hdrhistogram"]
 backend_packages = [
     "pants.backend.python",
     "pants.backend.docker",
     "pants.backend.experimental.terraform",
 ]
-
 
 pants_ignore = [
   "templates/**",
@@ -15,6 +12,7 @@ pants_ignore = [
 # Performance and caching
 process_execution_local_parallelism = 4
 process_execution_cache_namespace = "pants-cache"
+pants_version = "2.27.0"
 
 [python]
 interpreter_constraints = [">=3.11,<3.12"]
@@ -22,16 +20,15 @@ interpreter_constraints = [">=3.11,<3.12"]
 enable_resolves = true
 default_resolve = "python-default"
 
-[python-infer]
-use_rust_parser = true
-# Improve import inference
-imports = true
-string_imports = true
-assets = true
 
 
 [ruff]
 config = "pyproject.toml"
+
+[subprocess-environment]
+env_vars.add = ["TF_PLUGIN_CACHE_DIR=/home/sorkin/.terraform.d/plugin-cache"]
+
+[test]
 
 [pytest]
 config_discovery = true
@@ -43,28 +40,32 @@ execution_slot_var = "PANTS_EXECUTION_SLOT"
 default_repository = "{name}"
 build_args = []
 
+
 [download-terraform]
 # 1. Specify the version you want to use.
 version = "1.13.0"
-extra_env_vars = ["PATH"]
 
 # 2. Append your custom version information to the known_versions list.
 # Format: '<version>|<platform>|<sha256>|<size_in_bytes>'
+extra_env_vars.add = ["PATH"]
 known_versions.add = [
   "1.13.0|linux_x86_64|de8ef905f84f24675da202a6967fddc40b2b23c15fc92a5007570f46a9fcc104|30637270",
 ]
 
 
-# Source roots for better organization
+# Source roots for PYTHONPATH
 [source]
 root_patterns = [
-    "src",
-    "tests",
+    "/src",
+    "/tests",
+    "docs",
+    "infra-packages",
     "packages",
     "services",
-    "infra-packages",
-    "tools",
+    "ditty-bag",
 ]
+
+
 
 # Anonymous telemetry (you can disable if preferred)
 [anonymous-telemetry]

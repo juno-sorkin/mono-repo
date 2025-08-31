@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint-test:
+  ci:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/${{ github.repository }}-ci:latest
@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Required for Pants to compute changed files.
 
       - name: Cache Pants and pip
         uses: actions/cache@v4
@@ -31,28 +31,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pants-
 
-      - name: Bootstrap Pants
+      - name: Set Pants spec
+        id: spec
         run: |
-          ./pants --version
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "spec=--changed-since=origin/${{ github.base_ref }} --changed-dependents=transitive" >> $GITHUB_OUTPUT
+          else
+            echo "spec=::" >> $GITHUB_OUTPUT
+          fi
 
-      - name: Lint/Format (PR - changed only)
-        if: ${{ github.event_name == 'pull_request' }}
+      - name: Run Pants
         run: |
-          ./pants --changed-since=origin/${{ github.base_ref }} --changed-dependents=transitive fmt --check
-          ./pants --changed-since=origin/${{ github.base_ref }} --changed-dependents=transitive lint
-
-      - name: Test (PR - changed only)
-        if: ${{ github.event_name == 'pull_request' }}
-        run: |
-          ./pants --changed-since=origin/${{ github.base_ref }} --changed-dependents=transitive test
-
-      - name: Lint/Format (push - all)
-        if: ${{ github.event_name == 'push' }}
-        run: |
-          ./pants fmt --check ::
-          ./pants lint ::
-
-      - name: Test (push - all)
-        if: ${{ github.event_name == 'push' }}
-        run: |
-          ./pants test ::
+          ./pants --concurrent fmt --check ${{ steps.spec.outputs.spec }}
+          ./pants --concurrent lint ${{ steps.spec.outputs.spec }}
+          ./pants --concurrent test ${{ steps.spec.outputs.spec }}

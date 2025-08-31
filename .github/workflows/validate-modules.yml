@@ -12,76 +12,40 @@ on:
       - 'infra-packages/**'
 
 jobs:
-  pre-commit:
-    name: Pre-commit (Terraform hooks)
+  validate:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/${{ github.repository }}-ci:latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for Pants to compute changed files.
 
-      - name: Cache pre-commit
+      - name: Cache Pants, pip, and Terraform
         uses: actions/cache@v4
         with:
-          path: $HOME/.cache/pre-commit
-          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+          path: |
+            ~/.cache/pants
+            ~/.cache/pip
+            /home/runner/.terraform.d/plugin-cache
+          key: ${{ runner.os }}-pants-terraform-${{ hashFiles('pants.toml', 'pyproject.toml', '3rdparty/python/default.lock', '**/.terraform.lock.hcl') }}
           restore-keys: |
-            pre-commit-
+            ${{ runner.os }}-pants-terraform-
 
-      - name: Run pre-commit on infra-packages
+      - name: Set Pants spec
+        id: spec
         run: |
-          pip install pre-commit==4.3.0
-          pre-commit run --show-diff-on-failure --all-files --color always
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "spec=--changed-since=origin/${{ github.base_ref }} --changed-dependents=transitive" >> $GITHUB_OUTPUT
+          else
+            echo "spec=::" >> $GITHUB_OUTPUT
+          fi
 
-  plan-test:
-    name: Terraform init/validate/test (changed modules)
-    needs: pre-commit
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/${{ github.repository }}-ci:latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Compute changed modules
-        id: set-matrix
-        shell: bash
+      - name: Run Terraform validation
+        env:
+          TF_PLUGIN_CACHE_DIR: /home/runner/.terraform.d/plugin-cache
         run: |
-          base_ref=${{ github.event_name == 'pull_request' && 'origin/' || '' }}${{ github.event.pull_request.base.ref || github.ref_name }}
-          git fetch origin ${{ github.event.pull_request.base.ref || 'main' }} || true
-          changed=$(git diff --name-only ${base_ref}...HEAD | grep '^infra-packages/' | awk -F/ '{print $1"/"$2"/"$3}' | sort -u)
-          json=$(echo "$changed" | jq -c -R -s 'split("\n") | map(select(length>0)) | map({module_path: .}) | {include: .}')
-          echo "matrix=$json" >> $GITHUB_OUTPUT
-
-  run-modules:
-    name: Run Terraform in ${{ matrix.module_path }}
-    needs: plan-test
-    if: needs.plan-test.outputs.matrix != '{"include":[]}'
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/${{ github.repository }}-ci:latest
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJson(needs.plan-test.outputs.matrix) }}
-    env:
-      TF_PLUGIN_CACHE_DIR: /home/runner/.terraform.d/plugin-cache
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Cache Terraform providers
-        uses: actions/cache@v4
-        with:
-          path: $HOME/.terraform.d/plugin-cache
-          key: ${{ runner.os }}-terraform-${{ hashFiles('**/.terraform.lock.hcl') }}
-          restore-keys: |
-            ${{ runner.os }}-terraform-
-
-      - name: Terraform init/validate/test
-        working-directory: ${{ matrix.module_path }}
-        run: |
-          terraform init -backend=false
-          terraform validate
-          terraform test || true
+          ./pants --concurrent lint ${{ steps.spec.outputs.spec }} infra-packages::
+          ./pants --concurrent check ${{ steps.spec.outputs.spec }} infra-packages::
+          ./pants --concurrent test ${{ steps.spec.outputs.spec }} infra-packages::

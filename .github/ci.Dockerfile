@@ -37,6 +37,10 @@ RUN curl -fsSL https://github.com/terraform-docs/terraform-docs/releases/downloa
   && rm /tmp/td.tar.gz \
   && terraform-docs --version
 
+# Install Pants
+COPY ditty-bag/get-pants.sh /tmp/
+RUN chmod +x /tmp/get-pants.sh && /tmp/get-pants.sh && rm /tmp/get-pants.sh
+
 # Pre-commit used by workflows
 RUN pip install --no-cache-dir pre-commit==4.3.0
 
