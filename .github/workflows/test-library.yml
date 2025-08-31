@@ -60,25 +60,18 @@ jobs:
         run: echo "name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.version }}" >> $GITHUB_OUTPUT
 
   ci:
-    needs: build
-    runs-on: ubuntu-latest
-    container:
-      image: ${{ needs.build.outputs.image_name }}
+    name: Perform CI Checks
+    runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          fetch-depth: 0 # Required for Pants to compute changed files.
-
-      - name: Cache Pants and pip
-        uses: actions/cache@v4.2.4
+          python-version: '3.12'
+      - uses: pantsbuild/actions/init-pants@v8
         with:
-          path: |
-            ~/.cache/pants
-            ~/.cache/pip
-          key: ${{ runner.os }}-pants-${{ hashFiles('pants.toml', 'pyproject.toml', '3rdparty/python/default.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pants-
+          gha-cache-key: v1
+          named-caches-hash: ${{ hashFiles('3rdparty/python/default.lock') }}
+          cache-lmdb-store: 'true'
 
       - name: Set Pants spec
         id: spec
