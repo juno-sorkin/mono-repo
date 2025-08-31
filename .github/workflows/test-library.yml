@@ -90,7 +90,9 @@ jobs:
           fi
 
       - name: Install Pants launcher
-        run: ./ditty-bag/get-pants.sh
+        run: |
+          chmod +x ./ditty-bag/get-pants.sh
+          ./ditty-bag/get-pants.sh
 
       - name: Run Pants
         run: |
