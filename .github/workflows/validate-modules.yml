@@ -9,92 +9,41 @@ on:
     paths:
       - 'infra-packages/**'
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-ci
-
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    outputs:
-      image_name: ${{ steps.image_name.outputs.name }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.7
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3.11.1
-
-      - name: Log in to GHCR
-        uses: docker/login-action@v3.5.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels)
-        id: meta
-        uses: docker/metadata-action@v5.8.0
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-            type=sha
-
-      - name: Build and push
-        uses: docker/build-push-action@v6.18.0
-        with:
-          context: .
-          file: .github/ci.Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Set image name output
-        id: image_name
-        run: echo "name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.version }}" >> $GITHUB_OUTPUT
-
   validate:
-    needs: build
-    runs-on: ubuntu-latest
-    container:
-      image: ${{ needs.build.outputs.image_name }}
+    name: Validate Terraform Modules
+    runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
         with:
-          fetch-depth: 0 # Required for Pants to compute changed files.
+          python-version: '3.11.13'
 
-      - name: Cache Pants, pip, and Terraform
-        uses: actions/cache@v4.2.4
+      - uses: pantsbuild/actions/init-pants@v8
         with:
-          path: |
-            ~/.cache/pants
-            ~/.cache/pip
-            /home/runner/.terraform.d/plugin-cache
-          key: ${{ runner.os }}-pants-terraform-${{ hashFiles('pants.toml', 'pyproject.toml', '3rdparty/python/default.lock', '**/.terraform.lock.hcl') }}
-          restore-keys: |
-            ${{ runner.os }}-pants-terraform-
+          gha-cache-key: v1
+          named-caches-hash: ${{ hashFiles('3rdparty/python/default.lock', '**/.terraform.lock.hcl') }}
+          cache-lmdb-store: 'true'
 
-      - name: Set Pants spec
-        id: spec
-        run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "spec=--changed-since=origin/${{ github.base_ref }} --changed-dependents=transitive" >> $GITHUB_OUTPUT
-          else
-            echo "spec=::" >> $GITHUB_OUTPUT
-          fi
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.13.0
+          terraform_wrapper: false
 
-      - name: Run Terraform validation
-        env:
-          TF_PLUGIN_CACHE_DIR: /home/runner/.terraform.d/plugin-cache
+      - name: Tailor BUILD files
         run: |
-          ./pants tailor --check ::
-          ./pants --concurrent lint ${{ steps.spec.outputs.spec }} infra-packages::
-          ./pants --concurrent check ${{ steps.spec.outputs.spec }} infra-packages::
-          ./pants --concurrent test ${{ steps.spec.outputs.spec }} infra-packages::
+          pants tailor --check ::
+
+      - name: Lint Terraform
+        run: |
+          pants lint infra-packages::
+
+      - name: Check Terraform
+        run: |
+          pants check infra-packages::
+
+      - name: Test Terraform
+        run: |
+          pants test infra-packages::
