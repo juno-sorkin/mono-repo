@@ -89,6 +89,9 @@ jobs:
             echo "spec=::" >> $GITHUB_OUTPUT
           fi
 
+      - name: Install Pants launcher
+        run: ./ditty-bag/get-pants.sh
+
       - name: Run Pants
         run: |
           ./pants tailor --check ::
