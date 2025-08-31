@@ -1,80 +1,101 @@
-# Development Environment Setup
+# Development Environment Setup Guide
+*Last updated: 2025-08-30*
 
-This document provides detailed information about setting up and maintaining the development environment for this Terraform shared modules repository.
+## Table of Contents
+1. [Prerequisites](#prerequisites)
+2. [Environment Setup](#environment-setup)
+3. [Development Workflow](#development-workflow)
+4. [Adding Components](#adding-components)
+5. [Quality Assurance](#quality-assurance)
+6. [Troubleshooting](#troubleshooting)
 
-## Local Development
+## Prerequisites
+- **Python 3.11+** (as configured in pants.toml)
+- **Git** (version control)
+- **Optional Tools**:
+  - Terraform (for infrastructure development)
+  - tflint (Terraform linting)
+  - terraform-docs (documentation generation)
 
-### Prerequisites
-
-- **Python 3.12+**: Required for running linting tools and tests
-- **Conda**: Package and environment management
-- **Terraform**: Infrastructure as Code tool
-- **Git**: Version control system
-
-### Environment Setup
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/juno-sorkin/tf-shared-modules.git
-   cd tf-shared-modules
-   ```
-
-2. **Set up the development environment**
-   ```bash
-   # Create and activate conda environment
-   conda env create -f dev_env.yml
-   conda activate self-test
-   ```
-
-3. **Install pre-commit hooks**
-   ```bash
-   pre-commit install
-   ```
-
-4. **Verify setup**
-   ```bash
-   pre-commit run --all-files
-   ```
+## Environment Setup
+```bash
+git clone <repository-url>
+cd mono-repo
+./pants --version  # Bootstraps Pants
+pip install pre-commit
+pre-commit install
+pre-commit run --all-files
+```
 
 ## Development Workflow
+### Standard Process
+1. Create feature branch
+2. Make changes
+3. Run quality checks:
+```bash
+./pants fmt ::
+./pants lint ::
+./pants test ::
+```
+4. Commit changes
 
-### Making Changes
+### Change Detection (PR-like)
+```bash
+./pants --changed-since=origin/main --changed-dependents=transitive fmt
+./pants --changed-since=origin/main --changed-dependents=transitive lint
+./pants --changed-since=origin/main --changed-dependents=transitive test
+```
 
-1. **Create a feature branch**
-   ```bash
-   git checkout -b feature/your-feature-name
+## Adding Components
+### Adding New Python Packages
+
+When adding new Python packages:
+
+1. **Create package structure in `packages/`**
+   ```
+   packages/your_package/
+   ├── BUILD
+   ├── pyproject.toml
+   ├── src/your_package/
+   │   ├── __init__.py
+   │   └── module.py
+   └── tests/
+       └── test_module.py
    ```
 
-2. **Make your changes**
-   - Add new modules in appropriate directories
-   - Update documentation
-   - Add tests
+2. **Configure BUILD file**
+   ```python
+   python_sources(
+       name="src",
+       dependencies=["//:requirements#your-dependencies"],
+   )
 
-3. **Run quality checks**
-   ```bash
-   # Format code
-   ruff format .
-
-   # Run linting
-   ruff check .
-
-   # Run tests
-   pytest
+   python_tests(
+       name="tests",
+       dependencies=[":src"],
+   )
    ```
 
-4. **Commit changes**
-   ```bash
-   git add .
-   git commit -m "feat: your meaningful commit message"
+3. **Update pyproject.toml**
+   - Add package metadata
+   - Specify dependencies
+   - Configure build settings
+
+### Adding New Terraform Modules
+
+When adding new Terraform modules in `infra-packages/`:
+
+1. **Follow the standard structure**
    ```
-
-### Adding New Modules
-
-When adding new Terraform modules:
-
-1. **Choose the appropriate directory**
-   - `shared-modules/custom/` for custom-built modules
-   - `shared-modules/wrapped/` for modules that wrap community modules
+   infra-packages/aws/your_module/
+   ├── BUILD
+   ├── main.tf
+   ├── variables.tf
+   ├── outputs.tf
+   ├── versions.tf
+   ├── README.md
+   └── test.tftest.hcl
+   ```
 
 2. **Include required files**
    - `main.tf` - Main Terraform configuration
@@ -82,86 +103,58 @@ When adding new Terraform modules:
    - `outputs.tf` - Output definitions
    - `versions.tf` - Provider and Terraform version constraints
    - `README.md` - Module documentation with examples
-   - `test.tftests.hcl` - Test configuration
+   - `test.tftest.hcl` - Test configuration
 
-3. **Follow naming conventions**
-   - Use lowercase with hyphens: `my-module-name`
-   - Use descriptive names that indicate the module's purpose
+3. **Configure BUILD file for Pants**
+   ```python
+   terraform_module(
+       name="module",
+       sources=["**/*.tf", "**/*.tftest.hcl"],
+   )
+   ```
 
-4. **Add documentation**
-   - Include clear description of the module's purpose
-   - Provide usage examples
-   - Document all inputs and outputs
-   - Include any prerequisites or dependencies
+## Quality Assurance
 
-## Code Quality
+### Pants Quality Gates
 
-### Linting and Formatting
+This project uses Pants for comprehensive code quality:
 
-This project uses Ruff for code quality:
-
-- **Formatting**: Enforces consistent code style
+- **Formatting**: Enforces consistent code style across Python and other languages
 - **Linting**: Catches potential bugs and enforces best practices
-- **Import sorting**: Maintains clean import statements
-
-### Testing
-
-- **Python tests**: Located in `tests/` directory
-- **Terraform tests**: `.tftests.hcl` files in each module
-- **Integration tests**: Validate module combinations
+- **Testing**: Runs unit and integration tests
+- **Dependency management**: Handles Python and Terraform dependencies
 
 ### Pre-commit Hooks
 
 Pre-commit hooks automatically run on each commit:
 
+- **Pants fmt/lint/test**: Code quality checks
 - **terraform_fmt**: Formats Terraform code
 - **terraform_docs**: Generates/updates module documentation
-- **ruff**: Linting and formatting for Python code
 - **tflint**: Terraform linting
-
-## Contributing
-
-### Pull Request Process
-
-1. **Fork the repository**
-2. **Create a feature branch**
-3. **Make your changes**
-4. **Run tests and quality checks**
-5. **Submit a pull request**
-
-### Code Review Requirements
-
-- All tests must pass
-- Code must pass linting checks
-- Documentation must be updated
-- Changes must be backwards compatible (or clearly marked as breaking)
-
-### Documentation Updates
-
-When making changes:
-
-- Update relevant README files
-- Update this development documentation if needed
-- Add examples for new features
-- Update module documentation using terraform-docs
+- **terraform validate**: Validates Terraform syntax
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **Pre-commit hooks failing**
-   - Run `pre-commit run --all-files` to see specific errors
-   - Fix formatting/linting issues
-   - Consider running `ruff format .` and `ruff check . --fix`
+1. **Pants bootstrap failing**
+   - Ensure Python 3.12+ is installed and in PATH
+   - Try `./pants --no-local-cache --version` to bypass cache issues
 
 2. **Terraform tests failing**
-   - Check Terraform syntax
-   - Verify provider versions
-   - Review test configurations
+   - Check Terraform syntax with `terraform validate`
+   - Verify provider versions in `versions.tf`
+   - Review test configurations in `.tftest.hcl` files
 
-3. **Conda environment issues**
-   - Recreate environment: `conda env remove -n self-test && conda env create -f dev_env.yml`
-   - Update dependencies: `conda env update -f dev_env.yml`
+3. **Pre-commit hooks failing**
+   - Run `pre-commit run --all-files` to see specific errors
+   - Fix formatting/linting issues with `./pants fmt ::` and `./pants lint ::`
+   - Consider running `terraform fmt` on Terraform files
+
+4. **Dependency issues**
+   - Check `3rdparty/python/` for locked requirements
+   - Update dependencies using Pants dependency management
 
 ### Getting Help
 
@@ -169,3 +162,5 @@ When making changes:
 - Review pull requests for similar changes
 - Consult the documentation in the `docs/` directory
 - Ask questions in discussions or issues
+- Check Pants documentation: https://www.pantsbuild.org/
+- Check Terraform documentation: https://developer.hashicorp.com/terraform/docs
