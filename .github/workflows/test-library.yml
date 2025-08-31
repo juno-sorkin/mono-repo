@@ -83,16 +83,11 @@ jobs:
       - name: Set Pants spec
         id: spec
         run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "spec=--changed-since=origin/${{ github.base_ref }} --changed-dependents=transitive" >> $GITHUB_OUTPUT
           else
             echo "spec=::" >> $GITHUB_OUTPUT
           fi
-
-      - name: Install Pants launcher
-        run: |
-          chmod +x ./ditty-bag/get-pants.sh
-          ./ditty-bag/get-pants.sh
 
       - name: Run Pants
         run: |
