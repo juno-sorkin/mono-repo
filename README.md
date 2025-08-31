@@ -1,74 +1,108 @@
-# Shared Terraform Modules
+## Monorepo: Python + Terraform, built with Pants
 
-This repository is a monorepo for managing shared Terraform modules and related Python tooling. It is designed to enforce high standards of code quality and maintainability through a robust system of local development tools and remote CI/CD validation.
+### Overview
+- **Build system**: Pants 2.27 for Python code and Terraform workflows
+- **Languages/Stacks**: Python 3.12, Terraform modules under `infra-packages/**`
+- **Quality gates**: pre-commit (Terraform hooks), Pants fmt/lint/test
+- **CI**: GitHub Actions; reproducible runner via `.github/ci.Dockerfile`
 
-[See internal developer documentation](docs/)
+### Repository layout
+- **`packages/`**: Python libraries (packaged via Pants)
+- **`services/`**: Service code (Python)
+- **`infra-packages/`**: Reusable Terraform modules (e.g., `aws/*`)
+- **`templates/`**: Cookiecutter templates (`template-project`, `template-infra`) — ignored by Pants
+- **`3rdparty/python/`**: Locked third-party requirements for Pants resolves
+- **`docs/`**: Developer and usage docs
+- **`BUILD` / `pants.toml`**: Pants configuration
 
-## Features
+### Prerequisites
+- Python 3.12
+- Git
+- Optional locally: Terraform, tflint, terraform-docs (needed only if you run Terraform pre-commit hooks locally; CI provides them)
 
--   **Centralized Modules:** A single source for reusable Terraform infrastructure modules.
--   **Automated Quality Checks:** Code formatting, linting, and validation are enforced automatically on every commit and pull request.
--   **Automated Documentation:** Terraform module documentation (inputs, outputs, etc.) is generated and updated automatically.
--   **Consistent Tooling:** A standardized development environment using `conda` and `pre-commit` ensures that all contributors adhere to the same quality standards.
--   **CI/CD Pipeline:** GitHub Actions workflows validate all changes, ensuring the integrity of the `master` branch.
-
-## Using the Modules
-
-To use a module from this repository in your own Terraform configuration, reference it directly from GitHub. You should pin your module source to a specific Git tag or commit hash for stability.
-
-### Example
-
-```hcl
-module "my_module" {
-  source = "github.com/juno-sorkin/tf-shared-modules//modules/<module_name>?ref=<tag_or_commit>"
-
-  # ... module variables
-}
+### Quickstart
+1) Bootstrap Pants
+```
+./pants --version
 ```
 
-Detailed documentation for each module, including its inputs, outputs, and an example usage, can be found in the `README.md` file within each module's directory (e.g., `modules/<module_name>/README.md`).
-
-## Contributing
-
-Contributions to this repository are welcome. To ensure a smooth development process, please adhere to the following workflow.
-
-### One-Time Setup
-
-Before making your first commit, you must install the `pre-commit` hooks to enable automated local quality checks.
-
-1.  Activate your Conda environment (`self_test`).
-2.  Run the following command from the root of the repository:
-    ```bash
-    pre-commit install
-    ```
-
-### Development Workflow
-
-1.  **Make changes:** Implement your new feature or bug fix in the relevant module or Python code.
-2.  **Commit changes:** When you run `git commit`, the pre-commit hooks will automatically run. They will format your code, lint for issues, and generate documentation.
-    -   If a hook makes a change (e.g., reformatting a file), it may abort the commit. Simply `git add` the modified files and run `git commit` again.
-    -   If all hooks pass, your commit will be created.
-3.  **Push and open a Pull Request:** Once your changes are committed, push your branch and open a pull request against the `master` branch.
-4.  **CI/CD Validation:** A suite of GitHub Actions will run on your pull request to validate formatting, linting, and run tests. All checks must pass before the pull request can be merged.
-
-This process ensures that all code is clean, consistent, and validated *before* it is merged, maintaining the high quality of the repository.
-
-## Repository Structure
-
+2) Install pre-commit hooks (recommended locally)
 ```
-.
-├── .github/        # GitHub Actions CI/CD workflows
-├── docs/           # Internal developer documentation
-├── func_from_ir/   # (TBD) Python source code
-├── modules/        # Shared Terraform modules
-├── project_template/ # Cookiecutter template for new projects
-├── tests/          # Python tests
-├── .pre-commit-config.yaml # Configuration for pre-commit hooks
-├── dev_env.yml     # Conda environment for development
-└── pyproject.toml  # Configuration for Python tooling (ruff, pytest)
+pip install pre-commit && pre-commit install
 ```
 
-## Future Work
+3) Python formatting, linting, tests
+```
+./pants fmt --check ::
+./pants lint ::
+./pants test ::
+```
 
--   **Populate Test Suite:** The Python test suite in the `tests/` directory needs to be expanded to provide comprehensive coverage.
--   **Configure Cookiecutter:** The `project_template` directory needs to be fully configured to provide a robust template for new projects.
+4) Change detection (PR-like runs)
+```
+./pants --changed-since=origin/main --changed-dependents=transitive fmt --check
+./pants --changed-since=origin/main --changed-dependents=transitive lint
+./pants --changed-since=origin/main --changed-dependents=transitive test
+```
+
+5) Terraform (module-level)
+- Validate/test a module manually:
+```
+cd infra-packages/aws/<module>
+terraform init -backend=false
+terraform validate
+terraform test        # runs terraform.tftest.hcl
+```
+- Run pre-commit Terraform hooks across the repo:
+```
+pre-commit run --all-files --show-diff-on-failure
+```
+
+### Cookiecutter templates
+- Project template:
+```
+cookiecutter templates/template-project -o services
+```
+- Infra template:
+```
+cookiecutter templates/template-infra -o infra-packages
+```
+
+### CI
+- **Pants CI**: `.github/workflows/test-library.yml`
+  - Runs `fmt --check`, `lint`, and `test` with Pants
+  - Uses change detection on PRs; full runs on pushes to `main`
+  - Executes in container image `ghcr.io/<owner>/<repo>-ci:latest`
+
+- **Terraform Modules CI**: `.github/workflows/validate-modules.yml`
+  - Runs Terraform pre-commit hooks (fmt/validate/docs/tflint)
+  - Detects changed modules under `infra-packages/**` and runs `init/validate/test` per module
+
+- **CI image build**: `.github/workflows/build-ci-image.yml`
+  - Builds `.github/ci.Dockerfile` into `ghcr.io/<owner>/<repo>-ci:latest`
+  - Triggered when the Dockerfile/workflow changes
+
+### Terraform versioning with Pants
+Modules commonly declare `required_version >= 1.13.0`. Pants downloads its own Terraform by default; pin it so validation matches your modules:
+```
+# in pants.toml
+[download-terraform]
+version = "1.13.0"
+
+[subprocess-environment]
+env_vars = ["PATH"]  # only if you must pass PATH or other vars through
+```
+Alternatively in CI, set:
+```
+PANTS_DOWNLOAD_TERRAFORM_VERSION=1.13.0
+```
+
+### Troubleshooting
+- **Terraform Core mismatch**: If `terraform validate` reports an unsupported version (e.g., 1.9.0), pin `[download-terraform].version` to `1.13.0` as above.
+- **YAML `::` parsing**: Quote or block multi-colon commands in GitHub Actions, e.g., `"./pants test ::"`.
+- **Templates with `{{ ... }}`**: Pants ignores `templates/**` (see `pants.toml`) to avoid glob parsing of cookiecutter braces.
+- **WSL DNS issues**: If Terraform or tooling cannot resolve hosts, configure WSL DNS (e.g., custom `/etc/resolv.conf`) and restart WSL.
+
+### Useful references
+- Pants docs: `https://www.pantsbuild.org/`
+- Terraform docs: `https://developer.hashicorp.com/terraform/docs`

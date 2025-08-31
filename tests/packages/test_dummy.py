@@ -43,7 +43,7 @@ def test_repository_structure():
 
     # Verify key directories exist
     # Get the repository root from the test's path
-    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 
     # Verify key directories exist
     expected_dirs = ["docs", "packages", "services", "tests"]

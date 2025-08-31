@@ -1,9 +1,0 @@
-{
-    "project_name": "New Project",
-    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-    "package_name": "{{ cookiecutter.project_slug }}_pac",
-    "project_description": "A short description of the project.",
-    "date": "The date you started, in a mm/dd format",
-    "python_version": "3.12",
-    "version": "0.1.0"
-}

@@ -1,0 +1,6 @@
+# {{ cookiecutter.project_name }}
+
+
+## description
+
+{{ cookiecutter.project_description }}. This project was started on {{ cookiecutter.date }}
