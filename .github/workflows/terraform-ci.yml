@@ -38,4 +38,6 @@ jobs:
         uses: asdf-vm/actions/setup@v3
 
       - name: Run pre-commit hooks
-        run: pre-commit run --all-files --show-diff-on-failure
+        run: |
+          . "$HOME/.asdf/asdf.sh"
+          pre-commit run --all-files --show-diff-on-failure
