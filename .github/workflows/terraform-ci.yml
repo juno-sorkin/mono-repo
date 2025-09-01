@@ -1,13 +1,26 @@
-name: Pre-commit
+# .github/workflows/terraform-ci.yml
+name: Terraform CI
 
 on:
   pull_request:
+    paths:
+      - 'infra-packages/**'
+      - '.github/workflows/terraform-ci.yml'
+      - '.pre-commit-config.yaml'
   push:
     branches: [ main ]
+    paths:
+      - 'infra-packages/**'
+      - '.github/workflows/terraform-ci.yml'
+      - '.pre-commit-config.yaml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   pre-commit:
-    name: Pre-commit
+    name: Validate Terraform Modules
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -35,4 +48,4 @@ jobs:
       - name: Run pre-commit hooks
         run: |
           pip install pre-commit
-          pre-commit run --all-files
+          pre-commit run --all-files --show-diff-on-failure
