@@ -1,36 +1,6 @@
-# 3rdparty/tools/dev_reqs.txt
-
-## these tools are most convenient to be installed via a system package manager like asdf or brew.
-## below are the commands for asdf
-
-
-# Terraform
-asdf plugin add terraform && \
-asdf install terraform 1.13.0 && \
-asdf set -u terraform 1.13.0
-
-# Python
-asdf plugin add python && \
-asdf install python 3.12.11 && \
-asdf set -u python 3.12.11
-
-# tflint
-asdf plugin add tflint && \
-asdf install tflint 0.59.1 && \
-asdf set -u tflint 0.59.1
-
-# terraform-docs
-asdf plugin add terraform-docs && \
-asdf install terraform-docs latest && \
-asdf set -u terraform-docs latest
-
-# pre-commit
-asdf plugin add pre-commit && \
-asdf install pre-commit 4.3.0 && \
-asdf set -u pre-commit 4.3.0
-pre-commit install
-
-# graphviz (optional)
-asdf plugin add graphviz && \
-asdf install graphviz 13.1.2 && \
-asdf set -u graphviz 13.1.2
+terraform 1.13.0
+python 3.12.11
+tflint 0.59.1
+terraform-docs latest
+pre-commit 4.3.0
+graphviz 13.1.2

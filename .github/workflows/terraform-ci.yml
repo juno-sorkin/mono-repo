@@ -34,18 +34,8 @@ jobs:
           gha-cache-key: v1
           named-caches-hash: ${{ hashFiles('3rdparty/tools/tools-reqs.lock') }}
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.13.0
-          terraform_wrapper: false
-
-      - name: Setup tflint
-        uses: terraform-linters/setup-tflint@v4
-        with:
-          tflint_version: v0.50.3
+      - name: Setup tools with asdf
+        uses: asdf-vm/actions/setup@v3
 
       - name: Run pre-commit hooks
-        run: |
-          pip install pre-commit
-          pre-commit run --all-files --show-diff-on-failure
+        run: pre-commit run --all-files --show-diff-on-failure
