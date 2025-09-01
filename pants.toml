@@ -17,7 +17,7 @@ backend_packages = [
 
 pants_ignore = [
   "templates/**",
-  "infra-packages/**", ## temp to see if pants breaks with terraform
+  "infra-packages/**", ## pants terraform managment is unstable
   "**/infra/**"
 ]
 

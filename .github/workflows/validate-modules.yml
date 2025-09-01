@@ -1,17 +1,13 @@
-name: Terraform Modules CI
+name: Pre-commit
 
 on:
   pull_request:
-    paths:
-      - 'infra-packages/**'
   push:
     branches: [ main ]
-    paths:
-      - 'infra-packages/**'
 
 jobs:
-  validate:
-    name: Validate Terraform Modules
+  pre-commit:
+    name: Pre-commit
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -20,11 +16,10 @@ jobs:
         with:
           python-version: '3.11.13'
 
-      - uses: pantsbuild/actions/init-pants@v8
+      - uses: pantsbuild/actions/init-pants@v10
         with:
           gha-cache-key: v1
           named-caches-hash: ${{ hashFiles('3rdparty/tools/tools-reqs.lock') }}
-          cache-lmdb-store: 'true'
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -32,18 +27,12 @@ jobs:
           terraform_version: 1.13.0
           terraform_wrapper: false
 
-      - name: Tailor BUILD files
+      - name: Setup tflint
+        uses: terraform-linters/setup-tflint@v4
+        with:
+          tflint_version: v0.50.3
+
+      - name: Run pre-commit hooks
         run: |
-          pants tailor --check ::
-
-      # - name: Lint Terraform
-      #   run: |
-      #     pants lint infra-packages::
-
-      # - name: Check Terraform
-      #   run: |
-      #     pants check infra-packages::
-
-      # - name: Test Terraform
-      #   run: |
-      #     pants test infra-packages::
+          pip install pre-commit
+          pre-commit run --all-files
