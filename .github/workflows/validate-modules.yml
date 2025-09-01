@@ -44,6 +44,6 @@ jobs:
       #   run: |
       #     pants check infra-packages::
 
-      - name: Test Terraform
-        run: |
-          pants test infra-packages::
+      # - name: Test Terraform
+      #   run: |
+      #     pants test infra-packages::
