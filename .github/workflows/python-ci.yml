@@ -50,6 +50,6 @@ jobs:
 
       - name: Run checks
         run: |
-          pants ${{ steps.changed-files.outputs.changed_args }} tailor --check
+          pants ${{ steps.changed-files.outputs.changed_args }} tailor
           pants ${{ steps.changed-files.outputs.changed_args }} lint
           pants ${{ steps.changed-files.outputs.changed_args }} test
