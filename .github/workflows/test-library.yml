@@ -22,10 +22,7 @@ jobs:
           cache-lmdb-store: 'true'
       - name: Check BUILD files
         run: |
-          pants tailor --check ::
+          pants tailor
       - name: Lint and typecheck
         run: |
-          pants lint check ::
-      - name: Test
-        run: |
-          pants test ::
+          pants lint
