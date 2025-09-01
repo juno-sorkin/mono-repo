@@ -64,6 +64,7 @@ requirements = ["//3rdparty/python:tools-reqs#pytest"]
 # Source roots for better organization
 [source]
 root_patterns = [
+    "/",
     "src",
     "tests",
     "packages",
