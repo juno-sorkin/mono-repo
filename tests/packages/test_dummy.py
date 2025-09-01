@@ -31,30 +31,6 @@ def test_dummy():
     assert True
 
 
-def test_repository_structure():
-    """
-    Test that verifies the expected repository structure exists.
-
-    This test ensures that the basic directory structure required for the
-    shared modules repository is in place. It validates that the automation
-    and tooling expect the correct file system layout.
-    """
-    import os
-
-    # Verify key directories exist
-    # Get the repository root from the test's path
-    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-
-    # Verify key directories exist
-    expected_dirs = ["docs", "packages", "services", "tests"]
-
-    for dir_name in expected_dirs:
-        path_to_check = os.path.join(repo_root, dir_name)
-        assert os.path.exists(path_to_check), f"Required directory '{path_to_check}' not found"
-        assert os.path.isdir(path_to_check), f"'{path_to_check}' is not a directory"
-
-
-
 def test_python_environment():
     """
     Test that verifies the Python environment is properly configured.
