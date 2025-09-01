@@ -1,4 +1,4 @@
-# shared-modules/wrapped/vpc_metaflow/variables.tf
+# infra-packages/aws/vpc_metaflow/variables.tf
 
 variable "name_prefix" {
   description = "A mandatory prefix used for naming all resources created within the module (e.g., metaflow-prod, data-science-dev)."

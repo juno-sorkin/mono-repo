@@ -1,4 +1,4 @@
-# shared-modules/wrapped/security_groups_unop/variables.tf
+# infra-packages/aws/security_groups_unop/variables.tf
 
 # Wrapper-Specific Variables
 variable "context_name" {

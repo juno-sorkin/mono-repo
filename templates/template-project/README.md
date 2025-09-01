@@ -13,7 +13,7 @@ When using this template, you'll be prompted for:
 - `project_version`: Initial version (default: v0.1.0)
 - `create_docs`: Whether to generate documentation (y/n)
 - `create_readme`: Whether to generate a README (y/n)
-- `create_flows`: Whether to generate workflow files (y/n)
+- `create_flows`: Whether to generate metaflow orchastration files (y/n)
 
 ## Usage
 

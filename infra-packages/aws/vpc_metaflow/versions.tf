@@ -1,4 +1,4 @@
-# shared-modules/vpc/versions.tf
+# infra-packages/aws/vpc_metaflow/versions.tf
 
 terraform {
   required_version = ">= 1.13.0"

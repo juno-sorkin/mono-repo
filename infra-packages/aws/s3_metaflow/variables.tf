@@ -1,4 +1,4 @@
-# shared-modules/wrapped/s3_metaflow/variables.tf
+# infra-packages/aws/s3_metaflow/variables.tf
 
 variable "bucket_name" {
   description = "The desired name for the S3 bucket."

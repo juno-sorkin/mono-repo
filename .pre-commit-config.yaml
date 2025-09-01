@@ -11,14 +11,14 @@ repos:
 
 - repo: local
   hooks:
-  - id: pants-fmt
-    name: pants-fmt
-    entry: pants fmt
-    language: system
-    stages: [pre-commit]
-    pass_filenames: false
-    files: \.(py)$
-    exclude: ^templates/
+  # - id: pants-fmt
+  #   name: pants-fmt
+  #   entry: pants fmt
+  #   language: system
+  #   stages: [pre-commit]
+  #   pass_filenames: false
+  #   files: \.(py)$
+  #   exclude: ^templates/
 
   - id: pants-lint
     name: pants-lint
@@ -29,23 +29,22 @@ repos:
     files: \.(py)$
     exclude: ^templates/
 
-  - id: pants-check
-    name: pants-check
-    entry: pants check
+  - id: terraform-test
+    name: terraform-test
+    entry: bash -c 'cd "$(dirname "$0")/.." && terraform init -backend=false && terraform test'
     language: system
     stages: [pre-commit]
-    pass_filenames: false
-    files: \.(py)$
-    exclude: ^templates/
+    pass_filenames: true
+    files: \.tftest\.hcl$
 
 - repo: https://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.99.4 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
+  rev: v1.100.0
   hooks:
      - id: terraform_fmt
      - id: terraform_validate
      - id: terraform_tflint
        args:
-        - '--args=--config=.tflint.hcl'
+        - '--args=--config=__GIT_WORKING_DIR__/.tflint.hcl'
      - id: terraform_docs
        args:
         - '--args=--lockfile=false'

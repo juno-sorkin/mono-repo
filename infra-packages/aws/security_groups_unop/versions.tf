@@ -1,4 +1,4 @@
-# shared-modules/wrapped/security_groups_unop/versions.tf
+# infra-packages/aws/security_groups_unop/versions.tf
 
 terraform {
   required_version = ">= 1.13.0"

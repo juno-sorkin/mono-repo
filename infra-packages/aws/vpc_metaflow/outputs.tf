@@ -1,4 +1,4 @@
-# shared-modules/wrapped/vpc_metaflow/outputs.tf
+# infra-packages/aws/vpc_metaflow/outputs.tf
 
 output "vpc_id" {
   description = "The ID of the created VPC. Used by nearly all other modules."

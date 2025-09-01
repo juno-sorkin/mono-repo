@@ -1,16 +1,24 @@
 # pants.toml
 [GLOBAL]
 pants_version = "2.27.0"
+
+
 plugins = ["hdrhistogram"]
+
+
 backend_packages = [
+    "pants.core",
     "pants.backend.python",
     "pants.backend.docker",
-    "pants.backend.experimental.terraform",
+    #"pants.backend.experimental.terraform",
+    "pants.backend.experimental.python.lint.ruff.check",
 ]
 
 
 pants_ignore = [
   "templates/**",
+  "infra-packages/**", ## temp to see if pants breaks with terraform
+  "**/infra/**"
 ]
 
 # Performance and caching
@@ -19,9 +27,17 @@ process_execution_cache_namespace = "pants-cache"
 
 [python]
 interpreter_constraints = [">=3.11"]
-# Enable resolves for better dependency management
+
+# resolves in 3rdparty
 enable_resolves = true
-resolves = ["python-default"]
+default_resolve = "python"
+
+[python.resolves]
+python = "3rdparty/python/python-deps.lock"
+tools = "3rdparty/tools/tools-deps.lock"
+
+
+
 
 [python-infer]
 use_rust_parser = true
@@ -35,19 +51,15 @@ assets = true
 config = "pyproject.toml"
 
 [pytest]
-config_discovery = true
+config = "pyproject.toml"
 execution_slot_var = "PANTS_EXECUTION_SLOT"
+install_from_resolve = "tools"
+requirements = ["//3rdparty/python:tools-reqs#pytest"]
 
-
-[docker]
-# For your CI Dockerfile
-default_repository = "{name}"
-build_args = []
-
-[download-terraform]
+#[download-terraform]
 # 1. Specify the version you want to use.
-version = "1.13.0"
-extra_env_vars = ["PATH"]
+#version = "1.13.0"
+#extra_env_vars = ["PATH"]
 
 # Source roots for better organization
 [source]

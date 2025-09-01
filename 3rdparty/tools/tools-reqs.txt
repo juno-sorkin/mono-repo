@@ -1,0 +1,7 @@
+# 3rdparty/tools/tools_reqs.txt
+
+## python tools
+pytest>=8.4.0
+pytest-cov
+ruff
+snakes

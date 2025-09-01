@@ -2,7 +2,7 @@
 
 ### Overview
 - **Build system**: Pants 2.27.0 for Python code and Terraform workflows
-- **Languages/Stacks**: Python 3.11 (compatible with >=3.11,<3.12), Terraform modules under `infra-packages/**`
+- **Languages/Stacks**: Python 3.11, Terraform modules under `infra-packages/**`
 - **Quality gates**: pre-commit (Terraform hooks), Pants fmt/lint/test
 - **CI**: GitHub Actions; reproducible runner via `.github/ci.Dockerfile`
 

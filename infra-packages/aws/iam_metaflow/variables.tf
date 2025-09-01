@@ -1,4 +1,4 @@
-# shared-modules/wrapped/iam_metaflow/variables.tf
+# infra-packages/aws/iam_metaflow/variables.tf
 
 variable "name_prefix" {
   description = "A prefix used for naming all IAM resources (e.g., 'metaflow-prod', 'metaflow-dev')"

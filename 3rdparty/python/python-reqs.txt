@@ -1,0 +1,7 @@
+# 3rdparty/python/python-reqs.txt
+
+
+metaflow>=2.18.1
+pip
+transformers
+datasets

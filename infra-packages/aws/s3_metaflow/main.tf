@@ -1,4 +1,4 @@
-# shared-modules/wrapped/s3_metaflow/main.tf
+# infra-packages/aws/s3_metaflow/main.tf
 
 # Data source to create the network-aware bucket policy
 data "aws_iam_policy_document" "metaflow_datastore" {

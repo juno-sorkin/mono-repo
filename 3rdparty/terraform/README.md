@@ -16,9 +16,12 @@ Terraform manages dependencies differently than traditional packages:
    - AWS provider configured in module definitions
    - Version constraints in `versions.tf` files
 
-3. **Core Tool**:
+3. **Terraform itself**:
    - Pinned in [`pants.toml`](../../pants.toml)
-   - Minimum version: `>= 1.13.0`
+   - pinned version: `>= 1.13.0`
+
+4. **Terraform's tools**:
+   - declared in ['../tools'](../../tools)
 
 ## Related Documentation
 - [Provider & Module Details](../../infra-packages/aws/docs/deps.md)

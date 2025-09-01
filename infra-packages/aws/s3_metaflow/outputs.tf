@@ -1,4 +1,4 @@
-# shared-modules/wrapped/s3_metaflow/outputs.tf
+# infra-packages/aws/s3_metaflow/outputs.tf
 
 output "s3_bucket_arn" {
   description = "The ARN of the S3 bucket."
