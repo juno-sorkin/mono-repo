@@ -26,7 +26,7 @@ process_execution_local_parallelism = 4
 process_execution_cache_namespace = "pants-cache"
 
 [python]
-interpreter_constraints = [">=3.11"]
+interpreter_constraints = [">=3.12"]
 
 # resolves in 3rdparty
 enable_resolves = true

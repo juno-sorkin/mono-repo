@@ -24,13 +24,19 @@ variable "job_role_arn" {
 }
 
 variable "lifecycle_policy_json" {
-  description = "The policy document. This is a JSON formatted string. See more details about [Policy Parameters](http://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html#lifecycle_policy_parameters) in the official AWS docs. If null, a default policy will be applied."
+  description = "The JSON lifecycle policy text. See https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html#lifecycle_policy_examples"
   type        = string
   default     = null
 }
 
+variable "attach_policy" {
+  description = "Whether to create and attach the repository policy. This is used to break a dependency cycle during terraform plan."
+  type        = bool
+  default     = false
+}
+
 variable "tags" {
-  description = "A map of tags to add to all resources"
+  description = "A map of tags to add to all resources."
   type        = map(string)
   default     = {}
 }

@@ -89,4 +89,13 @@ graph TD
 ## Deployment
 *Deployment process and considerations*
 
+## Metaflow Metadata Configuration
+
+It is important to note that for this specific setup, Metaflow is configured to store all of its run metadata locally on the machine where the flow is executed. This means:
+
+-   **No RDS Backend**: There is no dependency on an external PostgreSQL database hosted on AWS RDS for tracking runs, artifacts, or parameters.
+-   **No Metadata Service**: A continually running metadata service (like the one Metaflow supports for team-based collaboration) is not deployed.
+
+All metadata will be contained within the `.metaflow` directory in the user's home directory on the machine that initiates the `run` command. This simplifies the infrastructure but means that run history is local to that machine.
+
 ## Version History

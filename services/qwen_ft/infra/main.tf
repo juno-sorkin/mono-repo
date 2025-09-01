@@ -6,8 +6,8 @@ module "vpc" {
   name_prefix       = var.name_prefix
   vpc_cidr_block    = var.vpc_cidr_block
   availability_zone = var.availability_zone
-  aws_region        = var.aws_region
-  tags              = var.tags
+
+  tags = var.tags
 }
 
 module "iam" {
@@ -32,6 +32,7 @@ module "ecr" {
 
   repository_name = var.ecr_repository_name
   job_role_arn    = module.iam.batch_job_role_arn
+  attach_policy   = var.ecr_attach_policy
   tags            = var.tags
 }
 

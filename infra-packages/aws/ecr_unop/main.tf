@@ -37,9 +37,10 @@ module "ecr" {
   create_lifecycle_policy     = true
   repository_lifecycle_policy = coalesce(var.lifecycle_policy_json, local.default_lifecycle_policy)
 
-  # Repository policy for access control
-  attach_repository_policy          = var.job_role_arn != null ? true : false
-  repository_read_write_access_arns = var.job_role_arn != null ? [var.job_role_arn] : []
+  # The decision to attach a policy is controlled by a boolean variable to avoid a dependency cycle.
+  # The count of a resource cannot depend on an attribute (like an ARN) that is only known after apply.
+  attach_repository_policy          = var.attach_policy
+  repository_read_write_access_arns = var.attach_policy ? [var.job_role_arn] : []
 
   tags = merge(local.default_tags, var.tags)
 }

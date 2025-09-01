@@ -35,8 +35,14 @@ variable "s3_bucket_name" {
 }
 
 variable "ecr_repository_name" {
-  description = "The name of the ECR repository for the job container images."
+  description = "The name of the ECR repository to create."
   type        = string
+}
+
+variable "ecr_attach_policy" {
+  description = "Whether to attach the IAM policy to the ECR repository."
+  type        = bool
+  default     = true
 }
 
 variable "default_container_image" {

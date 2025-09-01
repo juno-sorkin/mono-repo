@@ -3,14 +3,13 @@
 locals {
   default_tags = {
     managed_by = "terraform"
-    project    = "metaflow"
   }
 
   # Common policy ARNs for Metaflow jobs
   job_policy_arns = concat([
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnlyAccess"
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   ], var.additional_job_policy_arns)
 
   # Instance role policy ARNs for Batch compute environments
@@ -29,7 +28,7 @@ module "batch_job_role" {
 
   # Trust policy for Batch and ECS tasks
   trust_policy_permissions = {
-    ecs_tasks = {
+    "AllowECSTasksToAssumeRole" = {
       principals = [{
         type        = "Service"
         identifiers = ["ecs-tasks.amazonaws.com"]
@@ -59,7 +58,7 @@ module "batch_service_role" {
 
   # Trust policy for Batch service
   trust_policy_permissions = {
-    batch_service = {
+    "AllowBatchServiceToAssumeRole" = {
       principals = [{
         type        = "Service"
         identifiers = ["batch.amazonaws.com"]
@@ -86,7 +85,7 @@ module "batch_instance_role" {
 
   # Trust policy for EC2 service
   trust_policy_permissions = {
-    ec2_service = {
+    "AllowEC2InstancesToAssumeRole" = {
       principals = [{
         type        = "Service"
         identifiers = ["ec2.amazonaws.com"]
@@ -115,7 +114,7 @@ module "spot_fleet_role" {
 
   # Trust policy for Spot Fleet service
   trust_policy_permissions = {
-    spot_fleet_service = {
+    "AllowSpotFleetToAssumeRole" = {
       principals = [{
         type        = "Service"
         identifiers = ["spotfleet.amazonaws.com"]

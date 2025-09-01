@@ -10,7 +10,7 @@
 6. [Troubleshooting](#troubleshooting)
 
 ## Prerequisites
-- **Python 3.11+** (as configured in pants.toml)
+- **Python 3.12+** (as configured in pants.toml)
 - **Git** (version control)
 - **Optional Tools**:
   - Terraform (for infrastructure development)

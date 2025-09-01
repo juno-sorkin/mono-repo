@@ -11,8 +11,8 @@ asdf set -u terraform 1.13.0
 
 # Python
 asdf plugin add python && \
-asdf install python 3.11.13 && \
-asdf set -u python 3.11.13
+asdf install python 3.12.11 && \
+asdf set -u python 3.12.11
 
 # tflint
 asdf plugin add tflint && \

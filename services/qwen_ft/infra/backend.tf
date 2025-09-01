@@ -2,10 +2,10 @@
 
 terraform {
   backend "s3" {
-    bucket         = "your-terraform-state-bucket" # FIXME: Replace with your S3 bucket name
+    bucket         = "tf-backend-logen-dev"
     key            = "services/qwen_ft/terraform.tfstate"
     region         = "us-east-2"
     encrypt        = true
-    dynamodb_table = "your-terraform-lock-table" # FIXME: Replace with your DynamoDB table name
+    dynamodb_table = "tf-lock-logen-dev"
   }
 }
