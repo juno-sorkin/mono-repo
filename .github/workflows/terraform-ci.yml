@@ -37,7 +37,7 @@ jobs:
           named-caches-hash: ${{ hashFiles('3rdparty/tools/tools-reqs.lock') }}
 
       - name: Setup tools with asdf
-        uses: asdf-vm/actions/setup@v3
+        uses: asdf-vm/actions/setup@v4
 
       - name: Determine changed files
         id: changed-files
@@ -60,6 +60,7 @@ jobs:
           echo "$PATH"
           echo "### Checking asdf tools ###"
           asdf current
+          type -a asdf
           echo "### Which pre-commit ###"
           which pre-commit
           echo "### pre-commit version ###"

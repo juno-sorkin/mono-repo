@@ -1,0 +1,39 @@
+# ditty-bag/install-dev-tools.sh
+
+# Install asdf
+wget https://github.com/asdf-vm/asdf/releases/download/v0.18.0/asdf-v0.18.0-linux-amd64.tar.gz
+
+tar -xzf asdf-v0.18.0-linux-amd64.tar.gz
+
+export PATH=$PATH:/$GITHUB_WORKSPACE/.asdf/shims
+
+# Terraform
+asdf plugin add terraform && \
+asdf install terraform 1.13.0 && \
+asdf set -u terraform 1.13.0
+
+# Python
+asdf plugin add python && \
+asdf install python 3.12.11 && \
+asdf set -u python 3.12.11
+
+# tflint
+asdf plugin add tflint && \
+asdf install tflint 0.59.1 && \
+asdf set -u tflint 0.59.1
+
+# terraform-docs
+asdf plugin add terraform-docs && \
+asdf install terraform-docs latest && \
+asdf set -u terraform-docs latest
+
+# pre-commit
+asdf plugin add pre-commit && \
+asdf install pre-commit 4.3.0 && \
+asdf set -u pre-commit 4.3.0
+pre-commit install
+
+# graphviz (optional)
+asdf plugin add graphviz && \
+asdf install graphviz 13.1.2 && \
+asdf set -u graphviz 13.1.2
