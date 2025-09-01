@@ -23,7 +23,7 @@ jobs:
       - uses: pantsbuild/actions/init-pants@v8
         with:
           gha-cache-key: v1
-          named-caches-hash: ${{ hashFiles('3rdparty/tools/tools-reqs.lock', '**/.terraform.lock.hcl') }}
+          named-caches-hash: ${{ hashFiles('3rdparty/tools/tools-reqs.lock') }}
           cache-lmdb-store: 'true'
 
       - name: Setup Terraform
