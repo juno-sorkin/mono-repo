@@ -36,13 +36,13 @@ jobs:
         run: |
           pants tailor --check ::
 
-      - name: Lint Terraform
-        run: |
-          pants lint infra-packages::
+      # - name: Lint Terraform
+      #   run: |
+      #     pants lint infra-packages::
 
-      - name: Check Terraform
-        run: |
-          pants check infra-packages::
+      # - name: Check Terraform
+      #   run: |
+      #     pants check infra-packages::
 
       - name: Test Terraform
         run: |

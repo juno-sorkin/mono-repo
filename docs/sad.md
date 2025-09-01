@@ -212,183 +212,168 @@ This architecture provides a solid foundation for developing, testing, and deplo
 
 ### tree
 
-mono-repo/
-├── 3rdparty/
-│   └── python/
-│       └── default.lock
-├── BUILD
-├── BUILD_MACROS.py
-├── ditty-bag/
-│   ├── get-pants.sh
-│   └── README.md
-├── docs/
-│   ├── dev.md
-│   ├── index.md
-│   ├── sad.md
-│   └── usage.md
-├── external/
-│   └── example-python/
-│       ├── BUILD
-│       ├── get-pants.sh
-│       ├── helloworld/
-│       │   ├── BUILD
-│       │   ├── greet/
-│       │   │   ├── BUILD
-│       │   │   ├── greeting.py
-│       │   │   ├── greeting_test.py
-│       │   │   ├── __init__.py
-│       │   │   └── translations.json
-│       │   ├── __init__.py
-│       │   ├── main.py
-│       │   └── translator/
-│       │       ├── BUILD
-│       │       ├── __init__.py
-│       │       ├── translator.py
-│       │       └── translator_test.py
-│       ├── LICENSE
-│       ├── mypy.ini
-│       ├── pants.ci.toml
-│       ├── pants.toml
-│       ├── python-default.lock
-│       ├── README.md
-│       └── requirements.txt
-├── infra-packages/
-│   └── aws/
-│       ├── batch_metaflow/
-│       │   ├── BUILD
-│       │   ├── main.tf
-│       │   ├── outputs.tf
-│       │   ├── README.md
-│       │   ├── tests/
-│       │   │   ├── README.md
-│       │   │   └── test.tftest.hcl
-│       │   ├── variables.tf
-│       │   └── versions.tf
-│       ├── docs/
-│       │   └── sad.md
-│       ├── ecr_unop/
-│       │   ├── BUILD
-│       │   ├── main.tf
-│       │   ├── outputs.tf
-│       │   ├── README.md
-│       │   ├── tests/
-│       │   │   ├── README.md
-│       │   │   └── test.tftest.hcl
-│       │   ├── variables.tf
-│       │   └── versions.tf
-│       ├── iam_metaflow/
-│       │   ├── BUILD
-│       │   ├── main.tf
-│       │   ├── outputs.tf
-│       │   ├── README.md
-│       │   ├── tests/
-│       │   │   ├── README.md
-│       │   │   └── test.tftest.hcl
-│       │   ├── variables.tf
-│       │   └── versions.tf
-│       ├── README.md
-│       ├── s3_metaflow/
-│       │   ├── BUILD
-│       │   ├── main.tf
-│       │   ├── outputs.tf
-│       │   ├── README.md
-│       │   ├── tests/
-│       │   │   ├── README.md
-│       │   │   └── test.tftest.hcl
-│       │   ├── variables.tf
-│       │   └── versions.tf
-│       ├── security_groups_unop/
-│       │   ├── BUILD
-│       │   ├── main.tf
-│       │   ├── outputs.tf
-│       │   ├── README.md
-│       │   ├── tests/
-│       │   │   ├── README.md
-│       │   │   └── test.tftest.hcl
-│       │   ├── variables.tf
-│       │   └── versions.tf
-│       └── vpc_metaflow/
-│           ├── BUILD
-│           ├── main.tf
-│           ├── outputs.tf
-│           ├── README.md
-│           ├── tests/
-│           │   ├── README.md
-│           │   └── test.tftest.hcl
-│           ├── variables.tf
-│           └── versions.tf
-├── packages/
-│   └── metaflow_tools/
-│       ├── BUILD
-│       ├── docs/
-│       │   └── sad.md
-│       ├── README.md
-│       └── src/
-│           └── metaflow_tools/
-│               ├── BUILD
-│               └── __init__.py
-├── pants.toml
-├── pyproject.toml
-├── README.md
-├── services/
-│   └── qwen_ft/
-│       ├── docs/
-│       │   └── sad.md
-│       ├── infra/
-│       │   ├── backend.tf
-│       │   ├── BUILD
-│       │   ├── docs/
-│       │   │   └── sad.md
-│       │   ├── main.tf
-│       │   ├── outputs.tf
-│       │   ├── providers.tf
-│       │   ├── README.md
-│       │   ├── Terraform.tfvars
-│       │   ├── tests/
-│       │   │   └── test.tftest.hcl
-│       │   ├── variables.tf
-│       │   └── versions.tf
-│       ├── README.md
-│       └── src/
-│           └── qwen_ft/
-│               ├── BUILD
-│               └── __init__.py
-├── templates/
-│   ├── template-infra/
-│   │   ├── {{ cookiecutter.infra_slug }}/
-│   │   │   ├── {% if cookiecutter.create_backend_config == 'y' %}backend.tf{% endif %}
-│   │   │   ├── {% if cookiecutter.create_backend_config == 'y' %}providers.tf{% endif %}
-│   │   │   ├── {% if cookiecutter.create_backend_config == 'y' %}Terraform.tfvars{% endif %}
-│   │   │   ├── {% if cookiecutter.create_docs == 'y' %}docs/{% endif %}
-│   │   │   │   └── sad.md
-│   │   │   ├── {% if cookiecutter.create_tests == 'y' %}tests/{% endif %}
-│   │   │   │   └── test.tftest.hcl
-│   │   │   ├── main.tf
-│   │   │   ├── outputs.tf
-│   │   │   ├── README.md
-│   │   │   ├── variables.tf
-│   │   │   └── versions.tf
-│   │   ├── cookiecutter.json
-│   │   ├── hooks/
-│   │   │   └── post_gen_project.sh
-│   │   └── README.md
-│   └── template-project/
-│       ├── cookiecutter.json
-│       ├── {{ cookiecutter.project_slug }}/
-│       │   ├── {% if cookiecutter.create_docs == 'y' %}docs/{% endif %}
-│       │   │   └── sad.md
-│       │   ├── {% if cookiecutter.create_flows == 'y' %}flows/{% endif %}
-│       │   │   └── imperative.py
-│       │   ├── {% if cookiecutter.create_readme == 'y' %}README.md{% endif %}
-│       │   └── src/
-│       │       └── {{ cookiecutter.package_name }}/
-│       │           └── __init__.py
-│       ├── hooks/
-│       │   └── post_gen_project.sh
-│       └── README.md
-└── tests/
-    ├── BUILD
-    ├── packages/
+└── mono-repo
+    ├── 3rdparty
     │   ├── BUILD
-    │   └── test_dummy.py
-    └── test_dummy.py
+    │   ├── python
+    │   │   ├── python-reqs.lock
+    │   │   └── python-reqs.txt
+    │   ├── terraform
+    │   │   └── README.md
+    │   └── tools
+    │       ├── tools-reqs.lock
+    │       └── tools-reqs.txt
+    ├── BUILD
+    ├── BUILD_MACROS.py
+    ├── ditty-bag
+    │   ├── get-pants.sh
+    │   └── README.md
+    ├── docs
+    │   ├── dev.md
+    │   ├── index.md
+    │   ├── sad.md
+    │   └── usage.md
+    |
+    ├── infra-packages
+    │   └── aws
+    │       ├── batch_metaflow
+    │       │   ├── BUILD
+    │       │   ├── main.tf
+    │       │   ├── outputs.tf
+    │       │   ├── README.md
+    │       │   ├── tests
+    │       │   │   ├── README.md
+    │       │   │   └── test.tftest.hcl
+    │       │   ├── variables.tf
+    │       │   └── versions.tf
+    │       ├── docs
+    │       │   ├── deps.md
+    │       │   └── sad.md
+    │       ├── ecr_unop
+    │       │   ├── BUILD
+    │       │   ├── main.tf
+    │       │   ├── outputs.tf
+    │       │   ├── README.md
+    │       │   ├── tests
+    │       │   │   ├── README.md
+    │       │   │   └── test.tftest.hcl
+    │       │   ├── variables.tf
+    │       │   └── versions.tf
+    │       ├── iam_metaflow
+    │       │   ├── BUILD
+    │       │   ├── main.tf
+    │       │   ├── outputs.tf
+    │       │   ├── README.md
+    │       │   ├── tests
+    │       │   │   ├── README.md
+    │       │   │   └── test.tftest.hcl
+    │       │   ├── variables.tf
+    │       │   └── versions.tf
+    │       ├── README.md
+    │       ├── s3_metaflow
+    │       │   ├── BUILD
+    │       │   ├── main.tf
+    │       │   ├── outputs.tf
+    │       │   ├── README.md
+    │       │   ├── tests
+    │       │   │   ├── README.md
+    │       │   │   └── test.tftest.hcl
+    │       │   ├── variables.tf
+    │       │   └── versions.tf
+    │       ├── security_groups_unop
+    │       │   ├── BUILD
+    │       │   ├── main.tf
+    │       │   ├── outputs.tf
+    │       │   ├── README.md
+    │       │   ├── tests
+    │       │   │   ├── README.md
+    │       │   │   └── test.tftest.hcl
+    │       │   ├── variables.tf
+    │       │   └── versions.tf
+    │       └── vpc_metaflow
+    │           ├── BUILD
+    │           ├── main.tf
+    │           ├── outputs.tf
+    │           ├── README.md
+    │           ├── tests
+    │           │   ├── README.md
+    │           │   └── test.tftest.hcl
+    │           ├── variables.tf
+    │           └── versions.tf
+    ├── packages
+    │   └── metaflow_tools
+    │       ├── BUILD
+    │       ├── docs
+    │       │   └── sad.md
+    │       ├── README.md
+    │       └── src
+    │           └── metaflow_tools
+    │               ├── BUILD
+    │               └── __init__.py
+    ├── pants.toml
+    ├── pyproject.toml
+    ├── README.md
+    ├── services
+    │   └── qwen_ft
+    │       ├── docs
+    │       │   └── sad.md
+    │       ├── infra
+    │       │   ├── backend.tf
+    │       │   ├── BUILD
+    │       │   ├── docs
+    │       │   │   └── sad.md
+    │       │   ├── main.tf
+    │       │   ├── outputs.tf
+    │       │   ├── providers.tf
+    │       │   ├── README.md
+    │       │   ├── Terraform.tfvars
+    │       │   ├── tests
+    │       │   │   └── test.tftest.hcl
+    │       │   ├── variables.tf
+    │       │   └── versions.tf
+    │       ├── README.md
+    │       └── src
+    │           └── qwen_ft
+    │               ├── BUILD
+    │               └── __init__.py
+    ├── templates
+    │   ├── template-infra
+    │   │   ├── {{ cookiecutter.infra_slug }}
+    │   │   │   ├── {% if cookiecutter.create_backend_config == 'y' %}backend.tf{% endif %}
+    │   │   │   ├── {% if cookiecutter.create_backend_config == 'y' %}providers.tf{% endif %}
+    │   │   │   ├── {% if cookiecutter.create_backend_config == 'y' %}Terraform.tfvars{% endif %}
+    │   │   │   ├── {% if cookiecutter.create_docs == 'y' %}docs{% endif %}
+    │   │   │   │   └── sad.md
+    │   │   │   ├── {% if cookiecutter.create_tests == 'y' %}tests{% endif %}
+    │   │   │   │   └── test.tftest.hcl
+    │   │   │   ├── main.tf
+    │   │   │   ├── outputs.tf
+    │   │   │   ├── README.md
+    │   │   │   ├── variables.tf
+    │   │   │   └── versions.tf
+    │   │   ├── cookiecutter.json
+    │   │   ├── hooks
+    │   │   │   └── post_gen_project.sh
+    │   │   └── README.md
+    │   └── template-project
+    │       ├── cookiecutter.json
+    │       ├── {{ cookiecutter.project_slug }}
+    │       │   ├── {% if cookiecutter.create_docs == 'y' %}docs{% endif %}
+    │       │   │   └── sad.md
+    │       │   ├── {% if cookiecutter.create_flows == 'y' %}flows{% endif %}
+    │       │   │   └── imperative.py
+    │       │   ├── {% if cookiecutter.create_readme == 'y' %}README.md{% endif %}
+    │       │   └── src
+    │       │       └── {{ cookiecutter.package_name }}
+    │       │           └── __init__.py
+    │       ├── hooks
+    │       │   └── post_gen_project.sh
+    │       └── README.md
+    └── tests
+        ├── BUILD
+        ├── packages
+        │   ├── BUILD
+        │   └── test_dummy.py
+        └── services
+            ├── BUILD
+            └── test_dummy.py
