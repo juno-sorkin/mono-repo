@@ -54,7 +54,7 @@ config = "pyproject.toml"
 config = "pyproject.toml"
 execution_slot_var = "PANTS_EXECUTION_SLOT"
 install_from_resolve = "tools"
-requirements = ["//3rdparty/python:tools-reqs#pytest"]
+requirements = ["//3rdparty/tools:tools-reqs#pytest"]
 
 #[download-terraform]
 # 1. Specify the version you want to use.
