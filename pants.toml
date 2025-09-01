@@ -33,8 +33,8 @@ enable_resolves = true
 default_resolve = "python"
 
 [python.resolves]
-python = "3rdparty/python/python-deps.lock"
-tools = "3rdparty/tools/tools-deps.lock"
+python = "3rdparty/python/python-reqs.lock"
+tools = "3rdparty/tools/tools-reqs.lock"
 
 
 
