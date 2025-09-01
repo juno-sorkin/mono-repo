@@ -1,7 +1,7 @@
 
 # This generates targets for your application dependencies.
 python_requirements(
-    name="python_reqs",
+    name="python-reqs",
     source="python-reqs.txt",
     resolve="python"
 )

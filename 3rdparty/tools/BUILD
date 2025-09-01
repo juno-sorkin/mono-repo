@@ -1,6 +1,6 @@
 # This generates targets for your tool dependencies.
 python_requirements(
-    name="tools_reqs",
+    name="tools-reqs",
     source="tools-reqs.txt",
     resolve="tools"
 )

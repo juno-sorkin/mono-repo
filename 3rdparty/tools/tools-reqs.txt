@@ -1,4 +1,4 @@
-# 3rdparty/tools/tools_reqs.txt
+# 3rdparty/tools/tools-reqs.txt
 
 ## python tools
 pytest>=8.4.0
