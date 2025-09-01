@@ -6,5 +6,6 @@
     "date": "The date you started, in a mm/dd format",
     "project_version": "v0.1.0",
     "create_docs": ["y", "n"],
-    "create_readme": ["y", "n"]
+    "create_readme": ["y", "n"],
+    "create_flows": ["y", "n"]
 }

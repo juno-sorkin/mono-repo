@@ -1,4 +1,4 @@
-# shared-modules/wrapped/vpc_metaflow/main.tf
+# infra-packages/aws/vpc_metaflow/main.tf
 
 locals {
   public_subnet_cidr  = cidrsubnet(var.vpc_cidr_block, 4, 0) # /20

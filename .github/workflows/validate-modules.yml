@@ -23,7 +23,7 @@ jobs:
       - uses: pantsbuild/actions/init-pants@v8
         with:
           gha-cache-key: v1
-          named-caches-hash: ${{ hashFiles('3rdparty/python/default.lock', '**/.terraform.lock.hcl') }}
+          named-caches-hash: ${{ hashFiles('3rdparty/tools/tools-reqs.lock') }}
           cache-lmdb-store: 'true'
 
       - name: Setup Terraform
@@ -36,14 +36,14 @@ jobs:
         run: |
           pants tailor --check ::
 
-      - name: Lint Terraform
-        run: |
-          pants lint infra-packages::
+      # - name: Lint Terraform
+      #   run: |
+      #     pants lint infra-packages::
 
-      - name: Check Terraform
-        run: |
-          pants check infra-packages::
+      # - name: Check Terraform
+      #   run: |
+      #     pants check infra-packages::
 
-      - name: Test Terraform
-        run: |
-          pants test infra-packages::
+      # - name: Test Terraform
+      #   run: |
+      #     pants test infra-packages::

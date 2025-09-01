@@ -11,16 +11,40 @@ repos:
 
 - repo: local
   hooks:
-  - id: pants-all
-    name: pants-all
-    # Run fmt, lint, and check in a single, efficient Pants invocation.
-    # The --concurrent flag runs goals in parallel where possible.
-    entry: pants --concurrent fmt lint check
+  # - id: pants-fmt
+  #   name: pants-fmt
+  #   entry: pants fmt
+  #   language: system
+  #   stages: [pre-commit]
+  #   pass_filenames: false
+  #   files: \.(py)$
+  #   exclude: ^templates/
+
+  - id: pants-lint
+    name: pants-lint
+    entry: pants lint
     language: system
     stages: [pre-commit]
-    # Tell pre-commit to pass the staged files to Pants.
     pass_filenames: false
-    # Run only on relevant file types you have configured in Pants.
-    files: \.(py|tf)$
-    # Exclude template files, which are not valid code.
+    files: \.(py)$
     exclude: ^templates/
+
+  - id: terraform-test
+    name: terraform-test
+    entry: bash -c 'cd "$(dirname "$0")/.." && terraform init -backend=false && terraform test'
+    language: system
+    stages: [pre-commit]
+    pass_filenames: true
+    files: \.tftest\.hcl$
+
+- repo: https://github.com/antonbabenko/pre-commit-terraform
+  rev: v1.100.0
+  hooks:
+     - id: terraform_fmt
+     - id: terraform_validate
+     - id: terraform_tflint
+       args:
+        - '--args=--config=__GIT_WORKING_DIR__/.tflint.hcl'
+     - id: terraform_docs
+       args:
+        - '--args=--lockfile=false'

@@ -1,4 +1,4 @@
-# shared-modules/wrapped/s3_metaflow/versions.tf
+# infra-packages/aws/s3_metaflow/versions.tf
 
 terraform {
   required_version = ">= 1.13.0"

@@ -1,4 +1,4 @@
-# shared-modules/wrapped/security_groups_unop/main.tf
+# infra-packages/aws/security_groups_unop/main.tf
 
 # tflint-ignore: terraform_naming_convention
 module "security-group" {

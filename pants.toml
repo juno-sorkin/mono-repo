@@ -1,71 +1,77 @@
+# pants.toml
 [GLOBAL]
+pants_version = "2.27.0"
+
+
+plugins = ["hdrhistogram"]
+
+
 backend_packages = [
+    "pants.core",
     "pants.backend.python",
     "pants.backend.docker",
-    "pants.backend.experimental.terraform",
+    #"pants.backend.experimental.terraform",
+    "pants.backend.experimental.python.lint.ruff.check",
 ]
+
 
 pants_ignore = [
   "templates/**",
+  "infra-packages/**", ## temp to see if pants breaks with terraform
+  "**/infra/**"
 ]
 
 # Performance and caching
 process_execution_local_parallelism = 4
 process_execution_cache_namespace = "pants-cache"
-pants_version = "2.27.0"
 
 [python]
-interpreter_constraints = [">=3.11,<3.12"]
-# Enable resolves for better dependency management
-enable_resolves = true
-default_resolve = "python-default"
+interpreter_constraints = [">=3.11"]
 
+# resolves in 3rdparty
+enable_resolves = true
+default_resolve = "python"
+
+[python.resolves]
+python = "3rdparty/python/python-deps.lock"
+tools = "3rdparty/tools/tools-deps.lock"
+
+
+
+
+[python-infer]
+use_rust_parser = true
+# Improve import inference
+imports = true
+string_imports = true
+assets = true
 
 
 [ruff]
 config = "pyproject.toml"
 
-[subprocess-environment]
-env_vars.add = ["TF_PLUGIN_CACHE_DIR=/home/sorkin/.terraform.d/plugin-cache"]
-
-[test]
-
 [pytest]
-config_discovery = true
+config = "pyproject.toml"
 execution_slot_var = "PANTS_EXECUTION_SLOT"
+install_from_resolve = "tools"
+requirements = ["//3rdparty/python:tools-reqs#pytest"]
 
-
-[docker]
-# For your CI Dockerfile
-default_repository = "{name}"
-build_args = []
-
-
-[download-terraform]
+#[download-terraform]
 # 1. Specify the version you want to use.
-version = "1.13.0"
+#version = "1.13.0"
+#extra_env_vars = ["PATH"]
 
-# 2. Append your custom version information to the known_versions list.
-# Format: '<version>|<platform>|<sha256>|<size_in_bytes>'
-extra_env_vars.add = ["PATH"]
-known_versions.add = [
-  "1.13.0|linux_x86_64|de8ef905f84f24675da202a6967fddc40b2b23c15fc92a5007570f46a9fcc104|30637270",
-]
-
-
-# Source roots for PYTHONPATH
+# Source roots for better organization
 [source]
 root_patterns = [
-    "/src",
-    "/tests",
-    "docs",
-    "infra-packages",
+    "src",
+    "tests",
     "packages",
     "services",
+    "infra-packages",
     "ditty-bag",
+    ".tflint.hcl",
 ]
-
-
 
 # Anonymous telemetry (you can disable if preferred)
 [anonymous-telemetry]

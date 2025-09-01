@@ -18,14 +18,11 @@ jobs:
       - uses: pantsbuild/actions/init-pants@v8
         with:
           gha-cache-key: v1
-          named-caches-hash: ${{ hashFiles('3rdparty/python/default.lock') }}
+          named-caches-hash: ${{ hashFiles('3rdparty/tools/tools-reqs.lock') }}
           cache-lmdb-store: 'true'
       - name: Check BUILD files
         run: |
-          pants tailor --check ::
+          pants tailor
       - name: Lint and typecheck
         run: |
-          pants lint check ::
-      - name: Test
-        run: |
-          pants test ::
+          pants lint

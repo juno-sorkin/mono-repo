@@ -1,27 +1,21 @@
 # pyproject.toml
-[project]
-dependencies = [
-  "metaflow",
-  "pytest",
-  "pytest-cov",
-  "ruff",
-  "pre-commit",
-  "pip",
-  "transformers",
-  "datasets",
-]
 
-[download-terraform]
-version = "1.13.0"
+
+
+### this file is for tool configs, find dependency declarations in @3rdparty/
+
+
+#[download-terraform] # monitor
+#version = "1.13.0"
 
 [tool.ruff]
 # Same as Black.
 line-length = 88
 indent-width = 4
-target-version = "py312"
+target-version = "py311"
 
 # Exclude a variety of commonly ignored directories and the temporary
-# file created by the setup-miniconda action.
+# file created by a setup-miniconda action.
 exclude = [
     ".bzr",
     ".direnv",

@@ -3,7 +3,7 @@
 # Global Python requirements that can be used by all targets
 python_requirements(
     name="reqs",
-    source="pyproject.toml",
+    source="3rdparty/python/python-reqs.txt",
 )
 
 
@@ -33,4 +33,8 @@ files(
 files(
     name="services_src",
     sources=["services/**"],
+)
+
+python_sources(
+    name="root",
 )

@@ -1,4 +1,4 @@
-# shared-modules/wrapped/security_groups_unop/outputs.tf
+# infra-packages/aws/security_groups_unop/outputs.tf
 
 output "id" {
   description = "The ID of the security group, used for rule definitions."

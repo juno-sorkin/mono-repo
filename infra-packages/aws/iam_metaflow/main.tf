@@ -1,4 +1,4 @@
-# shared-modules/wrapped/iam_metaflow/main.tf
+# infra-packages/aws/iam_metaflow/main.tf
 
 locals {
   default_tags = {

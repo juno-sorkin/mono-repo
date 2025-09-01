@@ -1,4 +1,4 @@
-# shared-modules/wrapped/iam_metaflow/outputs.tf
+# infra-packages/aws/iam_metaflow/outputs.tf
 
 # Batch Job Role - Used by S3 and ECR modules for permissions
 output "batch_job_role_arn" {

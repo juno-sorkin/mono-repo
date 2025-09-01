@@ -1,3 +1,5 @@
+# .gitignore
+
 # Terraform files
 **/.terraform
 **/.terraform.lock.hcl
@@ -15,9 +17,7 @@
 
 # Pants build system
 .pants.d/
-3erdparty/
 external/
 __pycache__/
 .pytest_cache/
 TODO
-docs/agents-notes.md
