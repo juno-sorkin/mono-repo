@@ -50,11 +50,24 @@ jobs:
             echo "changed_args=::" >> $GITHUB_OUTPUT
           fi
 
+      - name: Debug Environment
+        run: |
+          echo "### Initial PATH ###"
+          echo "$PATH"
+          echo "### Sourcing asdf ###"
+          . "$HOME/.asdf/asdf.sh"
+          echo "### PATH after sourcing asdf ###"
+          echo "$PATH"
+          echo "### Checking asdf tools ###"
+          asdf current
+          echo "### Which pre-commit ###"
+          which pre-commit
+          echo "### pre-commit version ###"
+          pre-commit --version
+
       - name: Run checks
         run: |
           . "$HOME/.asdf/asdf.sh"
-          export PATH=$PATH:/$HOME/.asdf/shims
-          export PATH=$PATH:/$HOME/.asdf
           # Run pre-commit for hooks like terraform-docs
           pre-commit run --all-files --show-diff-on-failure
 
