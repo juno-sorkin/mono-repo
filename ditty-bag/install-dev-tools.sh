@@ -24,8 +24,8 @@ asdf set -u tflint 0.59.1
 
 # terraform-docs
 asdf plugin add terraform-docs && \
-asdf install terraform-docs latest && \
-asdf set -u terraform-docs latest
+asdf install terraform-docs 0.20.0 && \
+asdf set -u terraform-docs 0.20.0
 
 # pre-commit
 asdf plugin add pre-commit && \

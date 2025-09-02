@@ -37,7 +37,7 @@ jobs:
           named-caches-hash: ${{ hashFiles('3rdparty/tools/tools-reqs.lock') }}
 
       - name: Setup tools with asdf
-        uses: asdf-vm/actions/setup@v4
+        uses: asdf-vm/actions/install@v4.0.0
 
       - name: Determine changed files
         id: changed-files
