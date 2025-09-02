@@ -53,6 +53,4 @@ def test_python_environment():
 # - Test cookiecutter template generation
 # - Test pre-commit hook validation
 # - Test linting and formatting utilities
-# - Test any shared Python utilities or helpers
 # - Test integration with Terraform modules (if applicable)
-# dir cannot have pycache
