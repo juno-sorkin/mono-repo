@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Required for --changed-since
+          fetch-depth: 0
 
 
       - uses: pantsbuild/actions/init-pants@v10
@@ -46,22 +46,6 @@ jobs:
           else
             echo "changed_args=::" >> $GITHUB_OUTPUT
           fi
-
-      - name: Debug Environment
-        run: |
-          echo "### Initial PATH ###"
-          echo "$PATH"
-          echo "### Sourcing asdf ###"
-          echo $(ls "$HOME/.asdf/")
-          echo "### PATH after sourcing asdf ###"
-          echo "$PATH"
-          echo "### Checking asdf tools ###"
-          asdf current
-          type -a asdf
-          echo "### Which pre-commit ###"
-          which pre-commit
-          echo "### pre-commit version ###"
-          pre-commit --version
 
       - name: Run checks
         run: |
