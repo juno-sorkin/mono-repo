@@ -27,9 +27,6 @@ jobs:
         with:
           fetch-depth: 0 # Required for --changed-since
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12.11'
 
       - uses: pantsbuild/actions/init-pants@v10
         with:
@@ -68,7 +65,6 @@ jobs:
 
       - name: Run checks
         run: |
-          . "$HOME/.asdf/asdf.sh"
           # Run pre-commit for hooks like terraform-docs
           pre-commit run --all-files --show-diff-on-failure
 
