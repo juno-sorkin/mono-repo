@@ -1,1 +1,1 @@
-### find dev tools in mono-repo/.tool-versions
+### find dev tools in ../../.tool-versions
