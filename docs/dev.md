@@ -33,17 +33,15 @@ pre-commit run --all-files
 2. Make changes
 3. Run quality checks:
 ```bash
-./pants fmt ::
-./pants lint ::
-./pants test ::
+pants lint ::
+pants test ::
 ```
 4. Commit changes
 
 ### Change Detection (PR-like)
 ```bash
-./pants --changed-since=origin/main --changed-dependents=transitive fmt
-./pants --changed-since=origin/main --changed-dependents=transitive lint
-./pants --changed-since=origin/main --changed-dependents=transitive test
+pants --changed-since=origin/main --changed-dependents=transitive lint
+pants --changed-since=origin/main --changed-dependents=transitive test
 ```
 
 ## Adding Components
@@ -128,7 +126,7 @@ This project uses Pants for comprehensive code quality:
 
 Pre-commit hooks automatically run on each commit:
 
-- **Pants fmt/lint/test**: Code quality checks
+- **Pants lint/test**: Code quality checks
 - **terraform_fmt**: Formats Terraform code
 - **terraform_docs**: Generates/updates module documentation
 - **tflint**: Terraform linting
@@ -140,7 +138,7 @@ Pre-commit hooks automatically run on each commit:
 
 1. **Pants bootstrap failing**
    - Ensure Python 3.12+ is installed and in PATH
-   - Try `./pants --no-local-cache --version` to bypass cache issues
+   - Try `pants --no-local-cache --version` to bypass cache issues
 
 2. **Terraform tests failing**
    - Check Terraform syntax with `terraform validate`
@@ -149,7 +147,7 @@ Pre-commit hooks automatically run on each commit:
 
 3. **Pre-commit hooks failing**
    - Run `pre-commit run --all-files` to see specific errors
-   - Fix formatting/linting issues with `./pants fmt ::` and `./pants lint ::`
+   - Fix formatting/linting issues with `pants lint ::`
    - Consider running `terraform fmt` on Terraform files
 
 4. **Dependency issues**

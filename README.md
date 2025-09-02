@@ -2,8 +2,13 @@
 
 ### Overview
 - **Build system**: Pants 2.27.0 for Python code and Terraform workflows
+<<<<<<< HEAD
 - **Languages/Stacks**: Python 3.12, Terraform modules under `infra-packages/**`
 - **Quality gates**: pre-commit (Terraform hooks), Pants fmt/lint/test
+=======
+- **Languages/Stacks**: Python 3.11, Terraform modules under `infra-packages/**`
+- **Quality gates**: pre-commit (Terraform hooks), Pants lint/test
+>>>>>>> 52752ca (add documentation)
 - **CI**: GitHub Actions; reproducible runner via `.github/ci.Dockerfile`
 
 ### Repository layout
@@ -33,14 +38,20 @@ pip install pre-commit && pre-commit install
 
 3) Python formatting, linting, tests
 ```
+<<<<<<< HEAD
 pants fmt --check ::
+=======
+>>>>>>> 52752ca (add documentation)
 pants lint ::
 pants test ::
 ```
 
 4) Change detection (PR-like runs)
 ```
+<<<<<<< HEAD
 pants --changed-since=origin/main --changed-dependents=transitive fmt --check
+=======
+>>>>>>> 52752ca (add documentation)
 pants --changed-since=origin/main --changed-dependents=transitive lint
 pants --changed-since=origin/main --changed-dependents=transitive test
 ```
@@ -109,12 +120,12 @@ cookiecutter templates/template-infra -o infra-packages
 
 ### CI
 - **Pants CI**: `.github/workflows/test-library.yml`
-  - Runs `fmt --check`, `lint`, and `test` with Pants
+  - Runs `lint`, and `test` with Pants
   - Uses change detection on PRs; full runs on pushes to `main`
   - Executes in container image `ghcr.io/<owner>/<repo>-ci:latest`
 
 - **Terraform Modules CI**: `.github/workflows/validate-modules.yml`
-  - Runs Terraform pre-commit hooks (fmt/validate/docs/tflint)
+  - Runs Terraform pre-commit hooks (validate/docs/tflint)
   - Detects changed modules under `infra-packages/**` and runs `init/validate/test` per module
 
 - **CI image build**: `.github/workflows/build-ci-image.yml`
