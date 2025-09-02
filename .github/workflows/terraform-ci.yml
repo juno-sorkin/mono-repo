@@ -55,7 +55,7 @@ jobs:
           echo "### Initial PATH ###"
           echo "$PATH"
           echo "### Sourcing asdf ###"
-          . "$HOME/.asdf/asdf.sh"
+          echo $(ls "$HOME/.asdf/")
           echo "### PATH after sourcing asdf ###"
           echo "$PATH"
           echo "### Checking asdf tools ###"
