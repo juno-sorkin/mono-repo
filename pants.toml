@@ -17,7 +17,7 @@ backend_packages = [
 
 pants_ignore = [
   "templates/**",
-  "infra-packages/**", ## temp to see if pants breaks with terraform
+  "infra-packages/**", ## pants terraform managment is unstable
   "**/infra/**"
 ]
 
@@ -26,15 +26,15 @@ process_execution_local_parallelism = 4
 process_execution_cache_namespace = "pants-cache"
 
 [python]
-interpreter_constraints = [">=3.11"]
+interpreter_constraints = [">=3.12"]
 
 # resolves in 3rdparty
 enable_resolves = true
 default_resolve = "python"
 
 [python.resolves]
-python = "3rdparty/python/python-deps.lock"
-tools = "3rdparty/tools/tools-deps.lock"
+python = "3rdparty/python/python-reqs.lock"
+tools = "3rdparty/tools/tools-reqs.lock"
 
 
 
@@ -54,7 +54,7 @@ config = "pyproject.toml"
 config = "pyproject.toml"
 execution_slot_var = "PANTS_EXECUTION_SLOT"
 install_from_resolve = "tools"
-requirements = ["//3rdparty/python:tools-reqs#pytest"]
+requirements = ["//3rdparty/tools:tools-reqs#pytest"]
 
 #[download-terraform]
 # 1. Specify the version you want to use.
@@ -64,6 +64,7 @@ requirements = ["//3rdparty/python:tools-reqs#pytest"]
 # Source roots for better organization
 [source]
 root_patterns = [
+    "/",
     "src",
     "tests",
     "packages",

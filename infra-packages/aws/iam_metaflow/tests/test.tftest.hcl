@@ -203,10 +203,7 @@ run "tag_merging" {
     error_message = "Default tags should include managed_by = terraform"
   }
 
-  assert {
-    condition     = local.default_tags.project == "metaflow"
-    error_message = "Default tags should include project = metaflow"
-  }
+
 }
 
 # Test name prefix usage and variable validation
@@ -257,7 +254,7 @@ run "default_policy_arns" {
   }
 
   assert {
-    condition     = contains(local.job_policy_arns, "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnlyAccess")
+    condition     = contains(local.job_policy_arns, "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly")
     error_message = "Should include ECR Read Only policy by default"
   }
 

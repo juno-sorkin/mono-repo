@@ -1,0 +1,55 @@
+# .github/workflows/python-ci.yml
+name: Python CI
+
+on:
+  pull_request:
+    paths:
+      - 'packages/**'
+      - 'services/**'
+      - 'BUILD'
+      - 'BUILD_MACROS.py'
+      - 'pants.toml'
+      - 'pyproject.toml'
+      - '3rdparty/**'
+      - '.github/workflows/python-ci.yml'
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Perform Python CI Checks
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for change detection
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.11'
+
+      - uses: pantsbuild/actions/init-pants@v10
+        with:
+          gha-cache-key: v1
+          named-caches-hash: ${{ hashFiles('3rdparty/tools/tools-reqs.lock') }}
+
+      - name: Determine changed files
+        id: changed-files
+        run: |
+          # For PRs, compare with the base of the branch
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "changed_args=--changed-since=origin/${{ github.base_ref }} --changed-dependents=transitive" >> $GITHUB_OUTPUT
+          # For pushes to main, run against all files
+          else
+            echo "changed_args=::" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run checks
+        run: |
+          pants ${{ steps.changed-files.outputs.changed_args }} tailor
+          pants ${{ steps.changed-files.outputs.changed_args }} lint
+          pants ${{ steps.changed-files.outputs.changed_args }} test

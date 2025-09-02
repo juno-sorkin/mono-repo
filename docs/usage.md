@@ -22,7 +22,7 @@ pre-commit install  # Install git hooks
 
 ### Prerequisites
 
-- **Python 3.11+**: Required for Pants and Python development
+- **Python 3.12+**: Required for Pants and Python development
 - **Git**: Version control system
 - **Terraform** (optional): For local Terraform development and testing
 

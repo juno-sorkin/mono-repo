@@ -20,4 +20,5 @@
 external/
 __pycache__/
 .pytest_cache/
+*.tfvars
 TODO

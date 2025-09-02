@@ -1,0 +1,72 @@
+# .github/workflows/terraform-ci.yml
+name: Terraform CI
+
+on:
+  pull_request:
+    paths:
+      - 'infra-packages/**'
+      - '.github/workflows/terraform-ci.yml'
+      - '.pre-commit-config.yaml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'infra-packages/**'
+      - '.github/workflows/terraform-ci.yml'
+      - '.pre-commit-config.yaml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pre-commit:
+    name: Validate Terraform Modules
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for --changed-since
+
+
+      - uses: pantsbuild/actions/init-pants@v10
+        with:
+          gha-cache-key: v1
+          named-caches-hash: ${{ hashFiles('3rdparty/tools/tools-reqs.lock') }}
+
+      - name: Setup tools with asdf
+        uses: asdf-vm/actions/install@v4.0.0
+
+      - name: Determine changed files
+        id: changed-files
+        run: |
+          # For PRs, compare with the base of the branch
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "changed_args=--changed-since=origin/${{ github.base_ref }}" >> $GITHUB_OUTPUT
+          # For pushes to main, run against all files
+          else
+            echo "changed_args=::" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Debug Environment
+        run: |
+          echo "### Initial PATH ###"
+          echo "$PATH"
+          echo "### Sourcing asdf ###"
+          echo $(ls "$HOME/.asdf/")
+          echo "### PATH after sourcing asdf ###"
+          echo "$PATH"
+          echo "### Checking asdf tools ###"
+          asdf current
+          type -a asdf
+          echo "### Which pre-commit ###"
+          which pre-commit
+          echo "### pre-commit version ###"
+          pre-commit --version
+
+      - name: Run checks
+        run: |
+          # Run pre-commit for hooks like terraform-docs
+          pre-commit run --all-files --show-diff-on-failure
+
+          # Run pants for dependency-aware checks
+          pants ${{ steps.changed-files.outputs.changed_args }} tailor --check

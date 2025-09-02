@@ -2,7 +2,7 @@
 
 ### Overview
 - **Build system**: Pants 2.27.0 for Python code and Terraform workflows
-- **Languages/Stacks**: Python 3.11, Terraform modules under `infra-packages/**`
+- **Languages/Stacks**: Python 3.12, Terraform modules under `infra-packages/**`
 - **Quality gates**: pre-commit (Terraform hooks), Pants fmt/lint/test
 - **CI**: GitHub Actions; reproducible runner via `.github/ci.Dockerfile`
 
@@ -16,14 +16,14 @@
 - **`BUILD` / `pants.toml`**: Pants configuration
 
 ### Prerequisites
-- Python 3.11
+- Python 3.12
 - Git
 - Optional locally: Terraform, tflint, terraform-docs (needed only if you run Terraform pre-commit hooks locally; CI provides them)
 
 ### Quickstart
 1) Bootstrap Pants
 ```
-./pants --version
+pants --version
 ```
 
 2) Install pre-commit hooks (recommended locally)
@@ -33,16 +33,16 @@ pip install pre-commit && pre-commit install
 
 3) Python formatting, linting, tests
 ```
-./pants fmt --check ::
-./pants lint ::
-./pants test ::
+pants fmt --check ::
+pants lint ::
+pants test ::
 ```
 
 4) Change detection (PR-like runs)
 ```
-./pants --changed-since=origin/main --changed-dependents=transitive fmt --check
-./pants --changed-since=origin/main --changed-dependents=transitive lint
-./pants --changed-since=origin/main --changed-dependents=transitive test
+pants --changed-since=origin/main --changed-dependents=transitive fmt --check
+pants --changed-since=origin/main --changed-dependents=transitive lint
+pants --changed-since=origin/main --changed-dependents=transitive test
 ```
 
 5) Terraform (module-level)

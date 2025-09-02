@@ -55,12 +55,13 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_attach_policy"></a> [attach\_policy](#input\_attach\_policy) | Whether to create and attach the repository policy. This is used to break a dependency cycle during terraform plan. | `bool` | `false` | no |
 | <a name="input_force_delete"></a> [force\_delete](#input\_force\_delete) | If `true`, will delete the repository even if it contains images. Defaults to `false` | `bool` | `false` | no |
 | <a name="input_image_tag_mutability"></a> [image\_tag\_mutability](#input\_image\_tag\_mutability) | The tag mutability setting for the repository. Must be one of: `MUTABLE` or `IMMUTABLE`. Defaults to `IMMUTABLE` | `string` | `"IMMUTABLE"` | no |
 | <a name="input_job_role_arn"></a> [job\_role\_arn](#input\_job\_role\_arn) | The ARN of the IAM role that will be granted read/write access to the ECR repository. If null, no repository policy will be attached. | `string` | `null` | no |
-| <a name="input_lifecycle_policy_json"></a> [lifecycle\_policy\_json](#input\_lifecycle\_policy\_json) | The policy document. This is a JSON formatted string. See more details about [Policy Parameters](http://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html#lifecycle_policy_parameters) in the official AWS docs. If null, a default policy will be applied. | `string` | `null` | no |
+| <a name="input_lifecycle_policy_json"></a> [lifecycle\_policy\_json](#input\_lifecycle\_policy\_json) | The JSON lifecycle policy text. See https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html#lifecycle_policy_examples | `string` | `null` | no |
 | <a name="input_repository_name"></a> [repository\_name](#input\_repository\_name) | The name of the repository | `string` | n/a | yes |
-| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources | `map(string)` | `{}` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources. | `map(string)` | `{}` | no |
 
 ## Outputs
 
