@@ -191,7 +191,6 @@ module "batch" {
   }
 
   # Disable IAM role creation since we're using external roles
-  ## TODO: check to make sure this is consistent with how want to do this
   create_instance_iam_role   = false
   create_service_iam_role    = false
   create_spot_fleet_iam_role = false
