@@ -1,5 +1,5 @@
 {
-    "infra_name": "new infra package orintegration",
+    "infra_name": "new infra package/service-integration",
     "infra_slug": "{{ cookiecutter.infra_name.lower().replace(' ', '_').replace('-', '_') }}",
     "create_backend_config": ["y", "n"],
     "create_docs": ["y", "n"],

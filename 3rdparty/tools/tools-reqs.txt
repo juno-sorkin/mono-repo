@@ -3,5 +3,5 @@
 ## python tools
 pytest>=8.4.0
 ruff
-cookiecutter
+cookiecutter==2.6.0
 snakes

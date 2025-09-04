@@ -10,14 +10,14 @@ backend_packages = [
     "pants.core",
     "pants.backend.python",
     "pants.backend.docker",
-    #"pants.backend.experimental.terraform",
+    "pants.backend.experimental.terraform",
     "pants.backend.experimental.python.lint.ruff.check",
 ]
 
 
 pants_ignore = [
   "templates/**",
-  "infra-packages/**", ## pants terraform managment is unstable
+ # "infra-packages/**", ## pants terraform managment is unstable
   "**/infra/**"
 ]
 
@@ -37,8 +37,6 @@ python = "3rdparty/python/python-reqs.lock"
 tools = "3rdparty/tools/tools-reqs.lock"
 
 
-
-
 [python-infer]
 use_rust_parser = true
 # Improve import inference
@@ -56,10 +54,9 @@ execution_slot_var = "PANTS_EXECUTION_SLOT"
 install_from_resolve = "tools"
 requirements = ["//3rdparty/tools:tools-reqs#pytest"]
 
-#[download-terraform]
-# 1. Specify the version you want to use.
-#version = "1.13.0"
-#extra_env_vars = ["PATH"]
+[download-terraform]
+version = "1.13.0"
+extra_env_vars = ["PATH"]
 
 # Source roots for better organization
 [source]
