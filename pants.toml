@@ -17,8 +17,6 @@ backend_packages = [
 
 pants_ignore = [
   "templates/**",
- # "infra-packages/**", ## pants terraform managment is unstable
-  "**/infra/**"
 ]
 
 # Performance and caching
