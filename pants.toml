@@ -53,9 +53,12 @@ install_from_resolve = "tools"
 requirements = ["//3rdparty/tools:tools-reqs#pytest"]
 
 [download-terraform]
-version = "1.13.0"
+version = "1.13.1"
+known_versions = [
+1.13.1|linux_x86_64|4449e2ddc0dee283f0909dd603eaf98edeebaa950f4635cea94f2caf0ffacc5a|30635389
+]
 extra_env_vars = ["PATH"]
-platforms = ["linux_amd64", "linux_arm64"] # actions runner has arm64 arch
+platforms = ["linux_x86_64", "linux_arm64"] # actions runner has arm64 arch
 
 
 # Source roots for better organization
