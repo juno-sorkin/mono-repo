@@ -13,9 +13,6 @@
 
 ## Module Documentation
 - [AWS Infrastructure Packages](../infra-packages/aws/docs/)
-- [Metaflow Tools](../packages/metaflow_tools/docs/)
-- [Qwen Fine-Tuning Service](../services/qwen_ft/docs/)
-- [Qwen Infrastructure](../services/qwen_ft/infra/docs/)
 
 ## Search
 Use `Ctrl+F` to search within documents or check the repository's search functionality.

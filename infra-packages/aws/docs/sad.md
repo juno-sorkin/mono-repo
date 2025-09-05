@@ -27,7 +27,7 @@
 ## Tree
 
 aws/
-├── batch_metaflow
+├── metaflow_batch
 │   ├── BUILD
 │   ├── main.tf
 │   ├── outputs.tf
@@ -39,7 +39,7 @@ aws/
 │   └── versions.tf
 ├── docs
 │   └── sad.md
-├── ecr_unop
+├── unop_ecr
 │   ├── BUILD
 │   ├── main.tf
 │   ├── outputs.tf
@@ -49,7 +49,7 @@ aws/
 │   │   └── test.tftest.hcl
 │   ├── variables.tf
 │   └── versions.tf
-├── iam_metaflow
+├── unop_iam
 │   ├── BUILD
 │   ├── main.tf
 │   ├── outputs.tf
@@ -60,7 +60,7 @@ aws/
 │   ├── variables.tf
 │   └── versions.tf
 ├── README.md
-├── s3_metaflow
+├── unop_s3
 │   ├── BUILD
 │   ├── main.tf
 │   ├── outputs.tf
@@ -70,7 +70,7 @@ aws/
 │   │   └── test.tftest.hcl
 │   ├── variables.tf
 │   └── versions.tf
-├── security_groups_unop
+├── unop_security_groups
 │   ├── BUILD
 │   ├── main.tf
 │   ├── outputs.tf

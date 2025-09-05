@@ -135,7 +135,7 @@ This document centralizes version requirements and dependency information for al
 ### Basic Module Reference
 ```hcl
 module "vpc" {
-  source = "../../vpc_metaflow"
+  source = "../../unop_vpc"
 
   # Required parameters
   cidr = "10.0.0.0/16"
@@ -148,7 +148,7 @@ module "vpc" {
 ### Module Composition Example
 ```hcl
 module "batch" {
-  source = "../../batch_metaflow"
+  source = "../../metaflow_batch"
 
   # Dependencies from other modules
   execution_role_arn = module.iam.metaflow_batch_role_arn

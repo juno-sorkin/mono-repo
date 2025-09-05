@@ -109,6 +109,7 @@ The `pants.toml` file defines the build system behavior:
 ```toml
 [GLOBAL]
 backend_packages = [
+    "pants.core",
     "pants.backend.python",
     "pants.backend.docker",
     "pants.backend.experimental.terraform",
@@ -116,9 +117,9 @@ backend_packages = [
 pants_version = "2.27.0"
 
 [python]
-interpreter_constraints = [">=3.11,<3.12"]
+interpreter_constraints = [">=3.12"]
 enable_resolves = true
-default_resolve = "python-default"
+default_resolve = "python"
 
 [download-terraform]
 version = "1.13.0"
