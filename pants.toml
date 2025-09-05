@@ -54,11 +54,14 @@ requirements = ["//3rdparty/tools:tools-reqs#pytest"]
 
 [download-terraform]
 version = "1.13.1"
+# pants doesn't support versions past 1.9 by default, so we need to add them
 known_versions = [
-1.13.1|linux_x86_64|4449e2ddc0dee283f0909dd603eaf98edeebaa950f4635cea94f2caf0ffacc5a|30635389
+"1.13.1|linux_x86_64|4449e2ddc0dee283f0909dd603eaf98edeebaa950f4635cea94f2caf0ffacc5a|30635389",
+"1.13.1|linux_arm64|2bb0787c2da1ad94d6a495a848aad4e9b572adb02bfc7361afeee80f07fd90ac|27815178"
 ]
 extra_env_vars = ["PATH"]
-platforms = ["linux_x86_64", "linux_arm64"] # actions runner has arm64 arch
+# arch name requiments are inconsistent
+platforms = ["linux_amd64", "linux_arm64"] # actions runner has arm64 arch
 
 
 # Source roots for better organization

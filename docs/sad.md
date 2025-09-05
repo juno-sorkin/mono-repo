@@ -237,7 +237,7 @@ This architecture provides a solid foundation for developing, testing, and deplo
     |
     ├── infra-packages
     │   └── aws
-    │       ├── batch_metaflow
+    │       ├── metaflow_batch
     │       │   ├── BUILD
     │       │   ├── main.tf
     │       │   ├── outputs.tf
@@ -250,7 +250,7 @@ This architecture provides a solid foundation for developing, testing, and deplo
     │       ├── docs
     │       │   ├── deps.md
     │       │   └── sad.md
-    │       ├── ecr_unop
+    │       ├── unop_ecr
     │       │   ├── BUILD
     │       │   ├── main.tf
     │       │   ├── outputs.tf
@@ -260,7 +260,7 @@ This architecture provides a solid foundation for developing, testing, and deplo
     │       │   │   └── test.tftest.hcl
     │       │   ├── variables.tf
     │       │   └── versions.tf
-    │       ├── iam_metaflow
+    │       ├── unop_iam
     │       │   ├── BUILD
     │       │   ├── main.tf
     │       │   ├── outputs.tf
@@ -271,7 +271,7 @@ This architecture provides a solid foundation for developing, testing, and deplo
     │       │   ├── variables.tf
     │       │   └── versions.tf
     │       ├── README.md
-    │       ├── s3_metaflow
+    │       ├── unop_s3
     │       │   ├── BUILD
     │       │   ├── main.tf
     │       │   ├── outputs.tf
@@ -281,7 +281,7 @@ This architecture provides a solid foundation for developing, testing, and deplo
     │       │   │   └── test.tftest.hcl
     │       │   ├── variables.tf
     │       │   └── versions.tf
-    │       ├── security_groups_unop
+    │       ├── unop_security_groups
     │       │   ├── BUILD
     │       │   ├── main.tf
     │       │   ├── outputs.tf
@@ -291,7 +291,7 @@ This architecture provides a solid foundation for developing, testing, and deplo
     │       │   │   └── test.tftest.hcl
     │       │   ├── variables.tf
     │       │   └── versions.tf
-    │       └── vpc_metaflow
+    │       └── unop_vpc
     │           ├── BUILD
     │           ├── main.tf
     │           ├── outputs.tf
@@ -302,41 +302,12 @@ This architecture provides a solid foundation for developing, testing, and deplo
     │           ├── variables.tf
     │           └── versions.tf
     ├── packages
-    │   └── metaflow_tools
-    │       ├── BUILD
-    │       ├── docs
-    │       │   └── sad.md
-    │       ├── README.md
-    │       └── src
-    │           └── metaflow_tools
-    │               ├── BUILD
-    │               └── __init__.py
+    │   └── (user-created packages go here)
     ├── pants.toml
     ├── pyproject.toml
     ├── README.md
     ├── services
-    │   └── qwen_ft
-    │       ├── docs
-    │       │   └── sad.md
-    │       ├── infra
-    │       │   ├── backend.tf
-    │       │   ├── BUILD
-    │       │   ├── docs
-    │       │   │   └── sad.md
-    │       │   ├── main.tf
-    │       │   ├── outputs.tf
-    │       │   ├── providers.tf
-    │       │   ├── README.md
-    │       │   ├── Terraform.tfvars
-    │       │   ├── tests
-    │       │   │   └── test.tftest.hcl
-    │       │   ├── variables.tf
-    │       │   └── versions.tf
-    │       ├── README.md
-    │       └── src
-    │           └── qwen_ft
-    │               ├── BUILD
-    │               └── __init__.py
+    │   └── (user-created services go here)
     ├── templates
     │   ├── template-infra
     │   │   ├── {{ cookiecutter.infra_slug }}

@@ -128,7 +128,7 @@ This document centralizes version requirements and dependency information for al
 - Standardized interface
 
 **Dependencies**:
-- vpc_metaflow (for VPC ID)
+- unop_vpc (for VPC ID)
 
 ## Usage Examples
 
@@ -200,7 +200,7 @@ module "batch" {
 graph TD;
     batch_metaflow --> iam_metaflow;
     batch_metaflow --> security_groups_unop;
-    security_groups_unop --> vpc_metaflow;
+    security_groups_unop --> unop_vpc;
 ```
 
 Key:

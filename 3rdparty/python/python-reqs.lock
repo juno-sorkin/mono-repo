@@ -309,36 +309,36 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "3772fb828864d3b7046c8bdf2f4860aaca4a79f25b7b060206c6a5f4944ea7f9",
-              "url": "https://files.pythonhosted.org/packages/86/76/48b982bb504ffbff8eb5522df8c144b98cdc38d574b3c55db1d82b5c0c7f/boto3-1.40.21-py3-none-any.whl"
+              "hash": "24a19e275d33e918afc22a78c6a1e20c14d02cc00e2f786b05e2a4a32191457e",
+              "url": "https://files.pythonhosted.org/packages/72/97/0edd43090a5e7d2abbb651d8efbe3b68ac1f98b07076c2c14c38ef5d62f6/boto3-1.40.24-py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "876ccc0b25517b992bd27976282510773a11ebc771aa5b836a238ea426c82187",
-              "url": "https://files.pythonhosted.org/packages/d8/54/5ba3f69a892ff486f5925008da21618665cf321880f279e9605399d9cec3/boto3-1.40.21.tar.gz"
+              "hash": "cc147ad13e8edf7ec69cbb4df8fe60f187f8b2c9ab8befa0fd1fbcfa4fc80b1f",
+              "url": "https://files.pythonhosted.org/packages/ea/41/b1a375d02481c0c276acec2f1624ee6561f912007e9bdf89d794620d69cb/boto3-1.40.24.tar.gz"
             }
           ],
           "project_name": "boto3",
           "requires_dists": [
-            "botocore<1.41.0,>=1.40.21",
+            "botocore<1.41.0,>=1.40.24",
             "botocore[crt]<2.0a0,>=1.21.0; extra == \"crt\"",
             "jmespath<2.0.0,>=0.7.1",
             "s3transfer<0.14.0,>=0.13.0"
           ],
           "requires_python": ">=3.9",
-          "version": "1.40.21"
+          "version": "1.40.24"
         },
         {
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "574ecf9b68c1721650024a27e00e0080b6f141c281ebfce49e0d302969270ef4",
-              "url": "https://files.pythonhosted.org/packages/df/6a/effb671afa31d35805d0760b45676136fd1209e263641861456b4566ae9b/botocore-1.40.21-py3-none-any.whl"
+              "hash": "d566840f2291bb5df1c0903ad385c61c865927d562d41dcf6468c9cee4cc313a",
+              "url": "https://files.pythonhosted.org/packages/0c/79/19e515fdba3d6ced97344fc2d6cc81454f77fad049724f2126b7ab83f332/botocore-1.40.24-py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "f77e9c199df0252b14ea739a9ac99723940f6bde90f4c2e7802701553a62827b",
-              "url": "https://files.pythonhosted.org/packages/50/11/d9a500a0e86b74017854e3ff12fd943f74f4358337799e0b272eaa6b4e27/botocore-1.40.21.tar.gz"
+              "hash": "af2b49e52950a12229440d7c297aaad0a7b75fd1c4f8700b164948b207a08cf0",
+              "url": "https://files.pythonhosted.org/packages/c2/aa/229503199f4d1533db327b69509487b9e73604c735506e92be266d744b61/botocore-1.40.24.tar.gz"
             }
           ],
           "project_name": "botocore",
@@ -350,7 +350,7 @@
             "urllib3<1.27,>=1.25.4; python_version < \"3.10\""
           ],
           "requires_python": ">=3.9",
-          "version": "1.40.21"
+          "version": "1.40.24"
         },
         {
           "artifacts": [
@@ -1305,23 +1305,23 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "416a96a5848aeb6b1f536723f2bef3c448d69fab1c7fc135f40333b9ccde659e",
-              "url": "https://files.pythonhosted.org/packages/49/00/7db87db91e187ed34b0dee654082aa91accffab7acf283dfc4aca139f02f/metaflow-2.18.1-py2.py3-none-any.whl"
+              "hash": "5b5df193e016df8f11386908a163e11f221d5eec0b885e51b4a83a81ce4c9995",
+              "url": "https://files.pythonhosted.org/packages/8d/2b/7ecaf64e81f312407eb98830607843e615f7ab272abc75bc11f4124069f6/metaflow-2.18.2-py2.py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "8e3a97eec250c3ac7ae80df444cbc2d1ce1767e38dc0243d69af149dbff6b90d",
-              "url": "https://files.pythonhosted.org/packages/f9/29/90101a85212d57b3641e39c0366fa24f5a9ae32f125a94bff2ed29203ea1/metaflow-2.18.1.tar.gz"
+              "hash": "3418bb8f13044f9209a75ee46c8be3f8bb22099ee4414362da2883544e2013ec",
+              "url": "https://files.pythonhosted.org/packages/dd/66/b9505871e5206e7afe04e2d3d7cfba1a24aff188319c991162017afbc141/metaflow-2.18.2.tar.gz"
             }
           ],
           "project_name": "metaflow",
           "requires_dists": [
             "boto3",
-            "metaflow-stubs==2.18.1; extra == \"stubs\"",
+            "metaflow-stubs==2.18.2; extra == \"stubs\"",
             "requests"
           ],
           "requires_python": null,
-          "version": "2.18.1"
+          "version": "2.18.2"
         },
         {
           "artifacts": [
@@ -2975,33 +2975,41 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "bacf539c38dd850690856881c4974321af93a22f2ee96bcc994741a2121d8e71",
-              "url": "https://files.pythonhosted.org/packages/98/41/6ba7c2eafa839069f1f949c30cd22e791b14b90c7af8cb0c65cc47702dca/transformers-4.56.0-py3-none-any.whl"
+              "hash": "1697af6addfb6ddbce9618b763f4b52d5a756f6da4899ffd1b4febf58b779248",
+              "url": "https://files.pythonhosted.org/packages/71/7c/283c3dd35e00e22a7803a0b2a65251347b745474a82399be058bde1c9f15/transformers-4.56.1-py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "6ca9c3f38aa4da93ebf877db7156368c1c188c7465f09dbe70951e7622e987fa",
-              "url": "https://files.pythonhosted.org/packages/e9/40/2898c1a5f8b2fff2f94dffd856d6793320e590e1cfdc3a1453c31c364094/transformers-4.56.0.tar.gz"
+              "hash": "0d88b1089a563996fc5f2c34502f10516cad3ea1aa89f179f522b54c8311fe74",
+              "url": "https://files.pythonhosted.org/packages/89/21/dc88ef3da1e49af07ed69386a11047a31dcf1aaf4ded3bc4b173fbf94116/transformers-4.56.1.tar.gz"
             }
           ],
           "project_name": "transformers",
           "requires_dists": [
             "GitPython<3.1.19; extra == \"deepspeed-testing\"",
             "GitPython<3.1.19; extra == \"dev\"",
+            "GitPython<3.1.19; extra == \"dev\"",
             "GitPython<3.1.19; extra == \"dev-tensorflow\"",
+            "GitPython<3.1.19; extra == \"dev-tensorflow\"",
+            "GitPython<3.1.19; extra == \"dev-torch\"",
             "GitPython<3.1.19; extra == \"dev-torch\"",
             "GitPython<3.1.19; extra == \"quality\"",
             "GitPython<3.1.19; extra == \"testing\"",
             "Pillow<=15.0,>=10.0.1; extra == \"all\"",
+            "Pillow<=15.0,>=10.0.1; extra == \"all\"",
+            "Pillow<=15.0,>=10.0.1; extra == \"dev\"",
             "Pillow<=15.0,>=10.0.1; extra == \"dev\"",
             "Pillow<=15.0,>=10.0.1; extra == \"dev-tensorflow\"",
+            "Pillow<=15.0,>=10.0.1; extra == \"dev-torch\"",
             "Pillow<=15.0,>=10.0.1; extra == \"dev-torch\"",
             "Pillow<=15.0,>=10.0.1; extra == \"torch-vision\"",
             "Pillow<=15.0,>=10.0.1; extra == \"vision\"",
             "accelerate>=0.26.0; extra == \"accelerate\"",
             "accelerate>=0.26.0; extra == \"all\"",
+            "accelerate>=0.26.0; extra == \"all\"",
             "accelerate>=0.26.0; extra == \"deepspeed\"",
             "accelerate>=0.26.0; extra == \"deepspeed-testing\"",
+            "accelerate>=0.26.0; extra == \"dev\"",
             "accelerate>=0.26.0; extra == \"dev\"",
             "accelerate>=0.26.0; extra == \"dev-torch\"",
             "accelerate>=0.26.0; extra == \"serving\"",
@@ -3021,16 +3029,27 @@
             "codecarbon>=2.8.1; extra == \"dev-torch\"",
             "cookiecutter==1.7.3; extra == \"deepspeed-testing\"",
             "cookiecutter==1.7.3; extra == \"dev\"",
+            "cookiecutter==1.7.3; extra == \"dev\"",
             "cookiecutter==1.7.3; extra == \"dev-tensorflow\"",
+            "cookiecutter==1.7.3; extra == \"dev-tensorflow\"",
+            "cookiecutter==1.7.3; extra == \"dev-torch\"",
             "cookiecutter==1.7.3; extra == \"dev-torch\"",
             "cookiecutter==1.7.3; extra == \"modelcreation\"",
             "cookiecutter==1.7.3; extra == \"testing\"",
             "datasets>=2.15.0; extra == \"deepspeed-testing\"",
+            "datasets>=2.15.0; extra == \"deepspeed-testing\"",
+            "datasets>=2.15.0; extra == \"dev\"",
+            "datasets>=2.15.0; extra == \"dev\"",
             "datasets>=2.15.0; extra == \"dev\"",
             "datasets>=2.15.0; extra == \"dev-tensorflow\"",
+            "datasets>=2.15.0; extra == \"dev-tensorflow\"",
+            "datasets>=2.15.0; extra == \"dev-tensorflow\"",
+            "datasets>=2.15.0; extra == \"dev-torch\"",
+            "datasets>=2.15.0; extra == \"dev-torch\"",
             "datasets>=2.15.0; extra == \"dev-torch\"",
             "datasets>=2.15.0; extra == \"quality\"",
             "datasets>=2.15.0; extra == \"retrieval\"",
+            "datasets>=2.15.0; extra == \"testing\"",
             "datasets>=2.15.0; extra == \"testing\"",
             "deepspeed>=0.9.3; extra == \"deepspeed\"",
             "deepspeed>=0.9.3; extra == \"deepspeed-testing\"",
@@ -3060,10 +3079,10 @@
             "fugashi>=1.0; extra == \"dev\"",
             "fugashi>=1.0; extra == \"dev-torch\"",
             "fugashi>=1.0; extra == \"ja\"",
-            "hf-xet; extra == \"hf-xet\"",
+            "hf_xet; extra == \"hf-xet\"",
             "huggingface-hub<1.0,>=0.34.0",
             "huggingface-hub<1.0,>=0.34.0; extra == \"torchhub\"",
-            "importlib-metadata; extra == \"torchhub\"",
+            "importlib_metadata; extra == \"torchhub\"",
             "ipadic<2.0,>=1.0.0; extra == \"dev\"",
             "ipadic<2.0,>=1.0.0; extra == \"dev-torch\"",
             "ipadic<2.0,>=1.0.0; extra == \"ja\"",
@@ -3098,7 +3117,10 @@
             "kernels<=0.9,>=0.6.1; extra == \"integrations\"",
             "libcst; extra == \"deepspeed-testing\"",
             "libcst; extra == \"dev\"",
+            "libcst; extra == \"dev\"",
             "libcst; extra == \"dev-tensorflow\"",
+            "libcst; extra == \"dev-tensorflow\"",
+            "libcst; extra == \"dev-torch\"",
             "libcst; extra == \"dev-torch\"",
             "libcst; extra == \"quality\"",
             "libcst; extra == \"testing\"",
@@ -3113,6 +3135,7 @@
             "librosa; extra == \"torch-speech\"",
             "mistral-common[opencv]>=1.6.3; extra == \"all\"",
             "mistral-common[opencv]>=1.6.3; extra == \"deepspeed-testing\"",
+            "mistral-common[opencv]>=1.6.3; extra == \"dev\"",
             "mistral-common[opencv]>=1.6.3; extra == \"dev\"",
             "mistral-common[opencv]>=1.6.3; extra == \"dev-tensorflow\"",
             "mistral-common[opencv]>=1.6.3; extra == \"dev-torch\"",
@@ -3132,6 +3155,7 @@
             "numpy>=1.17; extra == \"torchhub\"",
             "onnxconverter-common; extra == \"all\"",
             "onnxconverter-common; extra == \"dev\"",
+            "onnxconverter-common; extra == \"dev-tensorflow\"",
             "onnxconverter-common; extra == \"dev-tensorflow\"",
             "onnxconverter-common; extra == \"onnx\"",
             "onnxconverter-common; extra == \"tf\"",
@@ -3269,7 +3293,10 @@
             "rouge-score!=0.0.7,!=0.0.8,!=0.1,!=0.1.1; extra == \"testing\"",
             "ruff==0.11.2; extra == \"deepspeed-testing\"",
             "ruff==0.11.2; extra == \"dev\"",
+            "ruff==0.11.2; extra == \"dev\"",
             "ruff==0.11.2; extra == \"dev-tensorflow\"",
+            "ruff==0.11.2; extra == \"dev-tensorflow\"",
+            "ruff==0.11.2; extra == \"dev-torch\"",
             "ruff==0.11.2; extra == \"dev-torch\"",
             "ruff==0.11.2; extra == \"quality\"",
             "ruff==0.11.2; extra == \"ruff\"",
@@ -3295,8 +3322,12 @@
             "scipy<1.13.0; extra == \"flax\"",
             "sentencepiece!=0.1.92,>=0.1.91; extra == \"all\"",
             "sentencepiece!=0.1.92,>=0.1.91; extra == \"deepspeed-testing\"",
+            "sentencepiece!=0.1.92,>=0.1.91; extra == \"deepspeed-testing\"",
+            "sentencepiece!=0.1.92,>=0.1.91; extra == \"dev\"",
             "sentencepiece!=0.1.92,>=0.1.91; extra == \"dev\"",
             "sentencepiece!=0.1.92,>=0.1.91; extra == \"dev-tensorflow\"",
+            "sentencepiece!=0.1.92,>=0.1.91; extra == \"dev-tensorflow\"",
+            "sentencepiece!=0.1.92,>=0.1.91; extra == \"dev-torch\"",
             "sentencepiece!=0.1.92,>=0.1.91; extra == \"dev-torch\"",
             "sentencepiece!=0.1.92,>=0.1.91; extra == \"sentencepiece\"",
             "sentencepiece!=0.1.92,>=0.1.91; extra == \"testing\"",
@@ -3307,9 +3338,9 @@
             "sigopt; extra == \"integrations\"",
             "sigopt; extra == \"sigopt\"",
             "starlette; extra == \"serving\"",
-            "sudachidict-core>=20220729; extra == \"dev\"",
-            "sudachidict-core>=20220729; extra == \"dev-torch\"",
-            "sudachidict-core>=20220729; extra == \"ja\"",
+            "sudachidict_core>=20220729; extra == \"dev\"",
+            "sudachidict_core>=20220729; extra == \"dev-torch\"",
+            "sudachidict_core>=20220729; extra == \"ja\"",
             "sudachipy>=0.6.6; extra == \"dev\"",
             "sudachipy>=0.6.6; extra == \"dev-torch\"",
             "sudachipy>=0.6.6; extra == \"ja\"",
@@ -3331,6 +3362,7 @@
             "tensorflow<2.16,>2.9; extra == \"tf\"",
             "tf2onnx; extra == \"all\"",
             "tf2onnx; extra == \"dev\"",
+            "tf2onnx; extra == \"dev-tensorflow\"",
             "tf2onnx; extra == \"dev-tensorflow\"",
             "tf2onnx; extra == \"onnx\"",
             "tf2onnx; extra == \"tf\"",
@@ -3369,12 +3401,12 @@
             "torchvision; extra == \"torch-vision\"",
             "tqdm>=4.27",
             "tqdm>=4.27; extra == \"torchhub\"",
-            "unidic-lite>=1.0.7; extra == \"dev\"",
-            "unidic-lite>=1.0.7; extra == \"dev-torch\"",
-            "unidic-lite>=1.0.7; extra == \"ja\"",
             "unidic>=1.0.2; extra == \"dev\"",
             "unidic>=1.0.2; extra == \"dev-torch\"",
             "unidic>=1.0.2; extra == \"ja\"",
+            "unidic_lite>=1.0.7; extra == \"dev\"",
+            "unidic_lite>=1.0.7; extra == \"dev-torch\"",
+            "unidic_lite>=1.0.7; extra == \"ja\"",
             "urllib3<2.0.0; extra == \"dev\"",
             "urllib3<2.0.0; extra == \"dev-tensorflow\"",
             "urllib3<2.0.0; extra == \"dev-torch\"",
@@ -3382,7 +3414,7 @@
             "uvicorn; extra == \"serving\""
           ],
           "requires_python": ">=3.9.0",
-          "version": "4.56.0"
+          "version": "4.56.1"
         },
         {
           "artifacts": [
