@@ -65,4 +65,4 @@ jobs:
           echo "--- END DEBUGGING ---"
 
           pants ${{ steps.changed-files.outputs.changed_args }} tailor --check
-          pants ${{ steps.changed-files.outputs.changed_args }} lint --check
+          pants ${{ steps.changed-files.outputs.changed_args }} lint # doesnt need check
