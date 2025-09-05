@@ -55,6 +55,8 @@ requirements = ["//3rdparty/tools:tools-reqs#pytest"]
 [download-terraform]
 version = "1.13.0"
 extra_env_vars = ["PATH"]
+platforms = ["linux_amd64", "linux_arm64"] # actions runner has arm64 arch
+
 
 # Source roots for better organization
 [source]

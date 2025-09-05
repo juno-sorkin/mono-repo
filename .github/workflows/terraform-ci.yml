@@ -36,21 +36,24 @@ jobs:
       - name: Setup tools with asdf
         uses: asdf-vm/actions/install@v4.0.0
 
-      - name: Determine changed files
-        id: changed-files
-        run: |
-          # For PRs, compare with the base of the branch
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            echo "changed_args=--changed-since=origin/${{ github.base_ref }}" >> $GITHUB_OUTPUT
-          # For pushes to main, run against all files
-          else
-            echo "changed_args=::" >> $GITHUB_OUTPUT
-          fi
 
-      - name: Run checks
+
+      - name: Run pre-commit
         run: |
           # Run pre-commit for hooks like terraform-docs
           pre-commit run --all-files --show-diff-on-failure
 
-          # Run pants for dependency-aware checks
-          pants ${{ steps.changed-files.outputs.changed_args }} tailor --check
+      - name: Run Pants
+        run: |
+          pants \
+            --changed-since=origin/main \
+            tailor --check \
+            update-build-files --check \
+            lint
+
+      - name: Upload pants log
+        uses: actions/upload-artifact@v4
+        with:
+          name: pants-log
+          path: .pants.d/workdir/pants.log
+        if: always()

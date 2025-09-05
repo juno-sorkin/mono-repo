@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Required for change detection
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -39,30 +39,19 @@ jobs:
 
       - name: Setup tools with asdf
         uses: asdf-vm/actions/install@v4.0.0
-        
-      - name: Determine changed files
-        id: changed-files
-        run: |
-          # For PRs, compare with the base of the branch
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            echo "changed_args=--changed-since=origin/${{ github.base_ref }} --changed-dependents=transitive" >> $GITHUB_OUTPUT
-          # For pushes to main, run against all files
-          else
-            echo "changed_args=::" >> $GITHUB_OUTPUT
-          fi
 
-      - name: Run checks
-        run: |
-          echo "--- DEBUGGING WORKFLOW ENVIRONMENT ---"
-          echo "1. Check the PATH variable:"
-          echo "$PATH"
-          echo "\n2. Find the terraform executable location:"
-          which terraform
-          echo "\n3. Verify the terraform version:"
-          terraform version
-          echo "\n4. List asdf terraform installations:"
-          ls -la ~/.asdf/installs/terraform/
-          echo "--- END DEBUGGING ---"
 
-          pants ${{ steps.changed-files.outputs.changed_args }} tailor --check
-          pants ${{ steps.changed-files.outputs.changed_args }} lint # doesnt need check
+      - name: Run Pants
+        run: |
+          pants \
+            --changed-since=origin/main \
+            tailor --check \
+            update-build-files --check \
+            lint
+
+      - name: Upload pants log
+        uses: actions/upload-artifact@v4
+        with:
+          name: pants-log
+          path: .pants.d/workdir/pants.log
+        if: always()
