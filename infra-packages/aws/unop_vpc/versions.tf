@@ -1,4 +1,4 @@
-# infra-packages/aws/vpc_metaflow/versions.tf
+# infra-packages/aws/unop_vpc/versions.tf
 
 terraform {
   required_version = ">= 1.13.0"
