@@ -1,8 +1,8 @@
 # infra-packages/aws/unop_vpc/main.tf
 
 locals {
-  # Resolve AZs: prefer explicit list, else single AZ for backward compatibility
-  azs = length(var.availability_zones) > 0 ? var.availability_zones : [var.availability_zone]
+  # Resolve AZs: prefer explicit list, else single AZ fine
+  azs = var.availability_zones
 
   # Subnet sizing and spacing between subnet tiers (private/public)
   subnet_newbits       = var.subnet_newbits
@@ -64,7 +64,7 @@ resource "aws_vpc_endpoint" "gateway" {
   })
 }
 
-## Security group for Interface Endpoints, only when needed
+## Security group for Interface Endpoints
 resource "aws_security_group" "interface_endpoints" {
   count       = local.create_interface_endpoints ? 1 : 0
   name_prefix = "${var.name_prefix}-vpce-"

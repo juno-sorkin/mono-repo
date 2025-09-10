@@ -10,18 +10,11 @@ variable "vpc_cidr_block" {
   type        = string
 }
 
-# Backward compatibility: single AZ
-variable "availability_zone" {
-  description = "Single Availability Zone for resources (fallback when availability_zones is empty)."
-  type        = string
-  default     = "us-east-2a"
-}
-
 # Preferred: multiple AZs
 variable "availability_zones" {
   description = "List of Availability Zones to spread subnets across."
   type        = list(string)
-  default     = []
+  default     = ["us-east-2a", "us-east-2a"]
 }
 
 # Subnet creation controls
