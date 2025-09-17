@@ -10,7 +10,7 @@ variable "vpc_cidr_block" {
   type        = string
 }
 
-# Preferred: multiple AZs
+# Must be list?
 variable "availability_zones" {
   description = "List of Availability Zones to spread subnets across."
   type        = list(string)
@@ -37,6 +37,7 @@ variable "subnet_newbits" {
   default     = 8
 }
 
+#TODO: consider abstracting
 variable "public_subnet_offset" {
   description = "Index offset applied to public subnet CIDR calculation to avoid overlap with private subnets."
   type        = number

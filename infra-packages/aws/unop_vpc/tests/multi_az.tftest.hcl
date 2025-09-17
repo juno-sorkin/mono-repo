@@ -13,13 +13,13 @@ run "multi_az_private_public" {
   command = plan
 
   variables {
-    name_prefix        = "unop-multi-az"
-    vpc_cidr_block     = "10.20.0.0/16"
-    availability_zones = ["us-east-2a", "us-east-2b", "us-east-2c"]
-    subnet_newbits     = 8
+    name_prefix          = "unop-multi-az"
+    vpc_cidr_block       = "10.20.0.0/16"
+    availability_zones   = ["us-east-2a", "us-east-2b", "us-east-2c"]
+    subnet_newbits       = 8
     public_subnet_offset = 64
-    interface_endpoints = []
-    gateway_endpoints   = []
+    interface_endpoints  = []
+    gateway_endpoints    = []
   }
 
   assert {

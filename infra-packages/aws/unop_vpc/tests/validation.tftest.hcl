@@ -13,11 +13,11 @@ run "naming_and_formats" {
   command = plan
 
   variables {
-    name_prefix        = "unop-prod-1"
-    vpc_cidr_block     = "172.16.0.0/16"
-    availability_zone  = "us-east-2a"
-    availability_zones = []
-    gateway_endpoints  = ["s3", "dynamodb"]
+    name_prefix         = "unop-prod-1"
+    vpc_cidr_block      = "172.16.0.0/16"
+    availability_zone   = "us-east-2a"
+    availability_zones  = []
+    gateway_endpoints   = ["s3", "dynamodb"]
     interface_endpoints = []
   }
 

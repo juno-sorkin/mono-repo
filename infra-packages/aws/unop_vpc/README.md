@@ -61,8 +61,7 @@ Notes:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_availability_zone"></a> [availability\_zone](#input\_availability\_zone) | Single Availability Zone for resources (fallback when availability\_zones is empty). | `string` | `"us-east-2a"` | no |
-| <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | List of Availability Zones to spread subnets across. | `list(string)` | `[]` | no |
+| <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | List of Availability Zones to spread subnets across. | `list(string)` | <pre>[<br/>  "us-east-2a",<br/>  "us-east-2a"<br/>]</pre> | no |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS region for VPC endpoint service names. | `string` | `"us-east-2"` | no |
 | <a name="input_create_private_subnets"></a> [create\_private\_subnets](#input\_create\_private\_subnets) | Whether to create private subnets (recommended). | `bool` | `true` | no |
 | <a name="input_create_public_subnets"></a> [create\_public\_subnets](#input\_create\_public\_subnets) | Whether to create public subnets (for bastion/ingress). | `bool` | `true` | no |

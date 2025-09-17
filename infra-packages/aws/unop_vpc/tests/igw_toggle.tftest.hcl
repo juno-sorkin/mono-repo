@@ -13,8 +13,8 @@ run "igw_disabled" {
   command = plan
 
   variables {
-    name_prefix            = "unop-no-igw"
-    vpc_cidr_block         = "10.80.0.0/16"
+    name_prefix             = "unop-no-igw"
+    vpc_cidr_block          = "10.80.0.0/16"
     enable_internet_gateway = false
     interface_endpoints     = []
     gateway_endpoints       = []

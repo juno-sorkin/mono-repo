@@ -13,8 +13,8 @@ run "private_only" {
   command = plan
 
   variables {
-    name_prefix           = "unop-private-only"
-    vpc_cidr_block        = "10.30.0.0/16"
+    name_prefix            = "unop-private-only"
+    vpc_cidr_block         = "10.30.0.0/16"
     create_private_subnets = true
     create_public_subnets  = false
     gateway_endpoints      = []
@@ -31,8 +31,8 @@ run "public_only" {
   command = plan
 
   variables {
-    name_prefix           = "unop-public-only"
-    vpc_cidr_block        = "10.40.0.0/16"
+    name_prefix            = "unop-public-only"
+    vpc_cidr_block         = "10.40.0.0/16"
     create_private_subnets = false
     create_public_subnets  = true
     gateway_endpoints      = []
