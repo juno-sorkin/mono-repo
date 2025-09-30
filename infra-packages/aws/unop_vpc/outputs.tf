@@ -1,23 +1,33 @@
-# infra-packages/aws/vpc_metaflow/outputs.tf
+# infra-packages/aws/unop_vpc/outputs.tf
 
 output "vpc_id" {
-  description = "The ID of the created VPC. Used by nearly all other modules."
+  description = "The ID of the created VPC."
   value       = module.vpc.vpc_id
 }
 
 output "vpc_cidr_block" {
-  description = "The primary CIDR block of the VPC. Useful for authoring security group rules in other modules."
+  description = "The primary CIDR block of the VPC."
   value       = module.vpc.vpc_cidr_block
 }
 
 output "private_subnets" {
-  description = "The ID of the single private subnet. The metaflow-runtime and metaflow-metadata modules will deploy their resources here."
+  description = "IDs of created private subnets."
   value       = module.vpc.private_subnets
 }
 
 output "public_subnets" {
-  description = "The ID of the single public subnet. Provided for optional resources like a bastion host or public-facing load balancer."
+  description = "IDs of created public subnets."
   value       = module.vpc.public_subnets
+}
+
+output "private_route_table_ids" {
+  description = "Route table IDs associated with private subnets."
+  value       = module.vpc.private_route_table_ids
+}
+
+output "public_route_table_ids" {
+  description = "Route table IDs associated with public subnets."
+  value       = module.vpc.public_route_table_ids
 }
 
 output "default_security_group_id" {
@@ -25,7 +35,17 @@ output "default_security_group_id" {
   value       = module.vpc.default_security_group_id
 }
 
-output "vpc_endpoints" {
-  description = "A map of gateway endpoints created for the VPC."
+output "gateway_vpc_endpoints" {
+  description = "Gateway VPC endpoints created (by service)."
   value       = aws_vpc_endpoint.gateway
+}
+
+output "interface_vpc_endpoints" {
+  description = "Interface VPC endpoints created (by service)."
+  value       = aws_vpc_endpoint.interface
+}
+
+output "interface_endpoints_security_group_id" {
+  description = "Security group ID used for interface endpoints."
+  value       = try(aws_security_group.interface_endpoints[0].id, null)
 }
